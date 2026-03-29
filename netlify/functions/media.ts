@@ -75,13 +75,13 @@ export default async (req: Request, context: Context) => {
           return new Response(JSON.stringify({ message: 'No file provided' }), { status: 400, headers });
         }
 
-        const buffer = new Uint8Array(await file.arrayBuffer());
+        const buffer = await file.arrayBuffer();
         const ext = file.name.split('.').pop()?.toLowerCase() || 'bin';
         const filename = `${Date.now()}-${generateSlug(file.name.replace(/\.[^.]+$/, ''))}.${ext}`;
         const id = generateId();
 
         // Store the file in media blob store
-        await mediaStore.set(filename, buffer);
+        await mediaStore.set(filename, buffer as ArrayBuffer);
 
         const mediaItem = {
           id,
@@ -109,12 +109,12 @@ export default async (req: Request, context: Context) => {
         return new Response(JSON.stringify({ message: 'Data and filename required' }), { status: 400, headers });
       }
 
-      const buffer = new Uint8Array(Buffer.from(base64Data, 'base64'));
+      const buffer = Buffer.from(base64Data, 'base64');
       const ext = filename.split('.').pop()?.toLowerCase() || 'bin';
       const storageName = `${Date.now()}-${generateSlug(filename.replace(/\.[^.]+$/, ''))}.${ext}`;
       const id = generateId();
 
-      await mediaStore.set(storageName, buffer);
+      await mediaStore.set(storageName, buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.byteLength) as ArrayBuffer);
 
       const mediaItem = {
         id,
