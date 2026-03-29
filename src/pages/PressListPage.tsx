@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ExternalLink, Calendar } from 'lucide-react';
-import { Content } from '../../types';
+import { Content } from '../types';
 
 export default function PressListPage() {
   const [press, setPress] = useState<Content[]>([]);

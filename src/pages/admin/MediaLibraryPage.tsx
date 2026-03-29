@@ -97,11 +97,11 @@ export default function MediaLibrary({ onSelect, selectable = false }: MediaLibr
           } catch {
             // Fallback to original
             const buffer = await file.arrayBuffer();
-            uploadData = Buffer.from(buffer).toString('base64');
+            uploadData = btoa(String.fromCharCode(...new Uint8Array(buffer)));
           }
         } else {
           const buffer = await file.arrayBuffer();
-          uploadData = Buffer.from(buffer).toString('base64');
+          uploadData = btoa(String.fromCharCode(...new Uint8Array(buffer)));
         }
 
         const res = await fetch('/api/media/upload', {

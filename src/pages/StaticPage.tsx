@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Content } from '../../types';
+import { Content } from '../types';
 
 export default function StaticPage() {
   const { slug } = useParams();
