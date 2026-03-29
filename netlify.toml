@@ -124,6 +124,11 @@
   status = 200
 
 [[redirects]]
+  from = "/api/seed"
+  to = "/.netlify/functions/seed"
+  status = 200
+
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
