@@ -90,7 +90,7 @@ export default async (req: Request, context: Context) => {
           url: `/api/media/file/${filename}`,
           alt_text: altText,
           mime_type: file.type,
-          size: buffer.length,
+          size: buffer.byteLength,
           created_at: new Date().toISOString(),
         };
 
@@ -123,7 +123,7 @@ export default async (req: Request, context: Context) => {
         url: `/api/media/file/${storageName}`,
         alt_text: alt_text || '',
         mime_type: mime_type || 'application/octet-stream',
-        size: buffer.length,
+        size: buffer.byteLength,
         created_at: new Date().toISOString(),
       };
 
