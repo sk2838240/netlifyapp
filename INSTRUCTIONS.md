@@ -33,7 +33,7 @@ If they are empty, enter them manually. Otherwise leave as-is.
 
 ## Step 3: Environment Variables
 
-No environment variables are required for basic functionality.
+No environment variables are required. Do NOT add any environment variables on Netlify (such as `Email` or `Password`) — they are not used by this project and can cause build issues.
 
 Default admin credentials (hardcoded in `netlify/functions/auth.ts`):
 
