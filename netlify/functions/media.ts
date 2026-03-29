@@ -75,7 +75,7 @@ export default async (req: Request, context: Context) => {
           return new Response(JSON.stringify({ message: 'No file provided' }), { status: 400, headers });
         }
 
-        const buffer = Buffer.from(await file.arrayBuffer());
+        const buffer = new Uint8Array(await file.arrayBuffer());
         const ext = file.name.split('.').pop()?.toLowerCase() || 'bin';
         const filename = `${Date.now()}-${generateSlug(file.name.replace(/\.[^.]+$/, ''))}.${ext}`;
         const id = generateId();
@@ -109,7 +109,7 @@ export default async (req: Request, context: Context) => {
         return new Response(JSON.stringify({ message: 'Data and filename required' }), { status: 400, headers });
       }
 
-      const buffer = Buffer.from(base64Data, 'base64');
+      const buffer = new Uint8Array(Buffer.from(base64Data, 'base64'));
       const ext = filename.split('.').pop()?.toLowerCase() || 'bin';
       const storageName = `${Date.now()}-${generateSlug(filename.replace(/\.[^.]+$/, ''))}.${ext}`;
       const id = generateId();
