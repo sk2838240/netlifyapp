@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--body-font, 'Roboto'), system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-color, #ffffff);
+  color: var(--text-color, #1f2937);
+  -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
+  line-height: var(--paragraph-line-height, 1.75);
+  font-size: var(--paragraph-size, 1rem);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--heading-font, 'Inter'), sans-serif;
+  color: var(--text-color, #1f2937);
+  line-height: 1.2;
+}
+
+h1 { font-size: var(--h1-size, 3rem); font-weight: 800; }
+h2 { font-size: var(--h2-size, 2.25rem); font-weight: 700; }
+h3 { font-size: var(--h3-size, 1.5rem); font-weight: 600; }
+
+a {
+  color: var(--link-color, #2563eb);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+a:hover { color: var(--link-hover-color, #1d4ed8); }
+
+.btn-primary {
+  background: var(--button-color, #2563eb);
+  color: var(--button-text-color, #ffffff);
+  padding: 0.625rem 1.5rem;
+  border-radius: var(--border-radius, 0.5rem);
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+
+.card {
+  background: white;
+  border-radius: var(--border-radius, 0.5rem);
+  box-shadow: var(--card-shadow, 0 1px 3px rgba(0,0,0,0.1));
+  overflow: hidden;
+}
+
+/* Rich Text Editor Styles */
+.ql-container { font-size: 1rem; }
+.ql-editor { min-height: 200px; }
+
+/* Admin panel scrollbar */
+.admin-scroll::-webkit-scrollbar { width: 6px; }
+.admin-scroll::-webkit-scrollbar-track { background: #f1f5f9; }
+.admin-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+
+/* Toast animations */
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+.toast-enter { animation: slideIn 0.3s ease-out; }
+
+/* Section editor drag handle */
+.drag-handle { cursor: grab; }
+.drag-handle:active { cursor: grabbing; }

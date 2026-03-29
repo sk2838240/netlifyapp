@@ -1,0 +1,129 @@
+[build]
+  command = "npm install && npm run build"
+  publish = "dist"
+  functions = "netlify/functions"
+
+[dev]
+  command = "npm run dev"
+  targetPort = 5173
+  port = 8888
+  autoLaunch = false
+
+[functions]
+  node_bundler = "esbuild"
+  directory = "netlify/functions"
+
+[[redirects]]
+  from = "/api/auth"
+  to = "/.netlify/functions/auth"
+  status = 200
+
+[[redirects]]
+  from = "/api/content/*"
+  to = "/.netlify/functions/content"
+  status = 200
+
+[[redirects]]
+  from = "/api/content"
+  to = "/.netlify/functions/content"
+  status = 200
+
+[[redirects]]
+  from = "/api/categories/*"
+  to = "/.netlify/functions/categories"
+  status = 200
+
+[[redirects]]
+  from = "/api/categories"
+  to = "/.netlify/functions/categories"
+  status = 200
+
+[[redirects]]
+  from = "/api/tags/*"
+  to = "/.netlify/functions/tags"
+  status = 200
+
+[[redirects]]
+  from = "/api/tags"
+  to = "/.netlify/functions/tags"
+  status = 200
+
+[[redirects]]
+  from = "/api/faqs/*"
+  to = "/.netlify/functions/faqs"
+  status = 200
+
+[[redirects]]
+  from = "/api/faqs"
+  to = "/.netlify/functions/faqs"
+  status = 200
+
+[[redirects]]
+  from = "/api/homepage/*"
+  to = "/.netlify/functions/homepage"
+  status = 200
+
+[[redirects]]
+  from = "/api/homepage"
+  to = "/.netlify/functions/homepage"
+  status = 200
+
+[[redirects]]
+  from = "/api/media/file/*"
+  to = "/.netlify/functions/media-file"
+  status = 200
+
+[[redirects]]
+  from = "/api/media/*"
+  to = "/.netlify/functions/media"
+  status = 200
+
+[[redirects]]
+  from = "/api/media"
+  to = "/.netlify/functions/media"
+  status = 200
+
+[[redirects]]
+  from = "/api/schedule"
+  to = "/.netlify/functions/schedule"
+  status = 200
+
+[[redirects]]
+  from = "/api/redirects/*"
+  to = "/.netlify/functions/redirects"
+  status = 200
+
+[[redirects]]
+  from = "/api/redirects"
+  to = "/.netlify/functions/redirects"
+  status = 200
+
+[[redirects]]
+  from = "/api/sitemap"
+  to = "/.netlify/functions/sitemap"
+  status = 200
+
+[[redirects]]
+  from = "/api/optimize"
+  to = "/.netlify/functions/optimize"
+  status = 200
+
+[[redirects]]
+  from = "/api/styles"
+  to = "/.netlify/functions/styles"
+  status = 200
+
+[[redirects]]
+  from = "/api/navigation"
+  to = "/.netlify/functions/navigation"
+  status = 200
+
+[[redirects]]
+  from = "/api/settings"
+  to = "/.netlify/functions/settings"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
