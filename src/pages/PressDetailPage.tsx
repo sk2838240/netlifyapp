@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Calendar } from 'lucide-react';
-import { Content } from '../../types';
+import { Content } from '../types';
 
 export default function PressDetailPage() {
   const { slug } = useParams();

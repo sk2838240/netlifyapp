@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { useSiteStyles } from '../../hooks/useSiteStyles';
-import { HomePageSection, FAQ } from '../../types';
+import { useSiteStyles } from '../hooks/useSiteStyles';
+import { HomePageSection, FAQ } from '../types';
 
 export default function HomePage() {
   const { styles } = useSiteStyles();

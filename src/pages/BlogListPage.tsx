@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Calendar, ArrowRight } from 'lucide-react';
-import { Content } from '../../types';
+import { Content } from '../types';
 
 export default function BlogListPage() {
   const [blogs, setBlogs] = useState<Content[]>([]);

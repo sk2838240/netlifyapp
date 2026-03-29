@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Calendar, ArrowLeft, Tag } from 'lucide-react';
-import { Content } from '../../types';
+import { Content } from '../types';
 
 export default function BlogDetailPage() {
   const { slug } = useParams();
@@ -40,7 +40,7 @@ export default function BlogDetailPage() {
           </Link>
 
           <div className="flex items-center gap-3 mb-4">
-            {blog.categories?.map((cat) => (
+            {blog.categories?.map((cat: string) => (
               <span key={cat} className="text-xs font-semibold px-2 py-1 rounded text-white" style={{ background: 'var(--primary-color)' }}>
                 {cat}
               </span>
@@ -66,7 +66,7 @@ export default function BlogDetailPage() {
           {blog.tags?.length > 0 && (
             <div className="mt-12 pt-8 border-t flex items-center gap-2 flex-wrap" style={{ borderColor: 'rgba(0,0,0,0.1)' }}>
               <Tag className="w-4 h-4" style={{ opacity: 0.5 }} />
-              {blog.tags.map((tag) => (
+              {blog.tags.map((tag: string) => (
                 <span key={tag} className="text-xs px-3 py-1 rounded-full" style={{ background: '#f3f4f6', color: 'var(--text-color)' }}>
                   {tag}
                 </span>
