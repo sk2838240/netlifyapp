@@ -200,3 +200,52 @@ export interface Redirect {
   hits: number;
   created_at: string;
 }
+
+// Pagination types
+export interface PaginationInfo {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+  hasNext: boolean;
+  hasPrev: boolean;
+}
+
+export interface PaginatedResponse<T> {
+  data: T[];
+  pagination: PaginationInfo;
+}
+
+// API Response types
+export interface ApiResponse<T> {
+  data: T;
+  message?: string;
+}
+
+export interface ApiError {
+  message: string;
+  errors?: Array<{
+    code: string;
+    message: string;
+    path: string[];
+  }>;
+}
+
+// User types
+export interface User {
+  id: string;
+  email: string;
+  name: string;
+  role: string;
+}
+
+export interface AuthResponse {
+  token: string;
+  user: User;
+}
+
+export interface VerifyResponse {
+  valid: boolean;
+  user?: User;
+  message?: string;
+}

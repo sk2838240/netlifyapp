@@ -1,15 +1,37 @@
 import type { Context } from '@netlify/functions';
 import { getStore } from '@netlify/blobs';
+import jwt from 'jsonwebtoken';
+import { z } from 'zod';
 
 const store = getStore('cms-data');
+const JWT_SECRET = process.env.JWT_SECRET || 'change-this-secret-in-production-min-32-chars';
+const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || '*';
 
-function verifyAuth(req: Request): boolean {
+const headers = {
+  'Content-Type': 'application/json',
+  'Access-Control-Allow-Origin': ALLOWED_ORIGIN,
+  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+  'Access-Control-Allow-Credentials': 'true',
+};
+
+const RedirectSchema = z.object({
+  from_path: z.string().min(1).max(500),
+  to_path: z.string().min(1).max(500),
+  type: z.number().int().min(300).max(399),
+  active: z.boolean().optional(),
+});
+
+const UpdateRedirectSchema = RedirectSchema.partial();
+
+function verifyAuth(req: Request): any {
   const auth = req.headers.get('Authorization');
-  if (!auth?.startsWith('Bearer ')) return false;
+  if (!auth?.startsWith('Bearer ')) return null;
   try {
-    const data = JSON.parse(Buffer.from(auth.slice(7), 'base64').toString('utf-8'));
-    return data.exp > Date.now();
-  } catch { return false; }
+    return jwt.verify(auth.slice(7), JWT_SECRET);
+  } catch {
+    return null;
+  }
 }
 
 async function getData(key: string): Promise<any[]> {
@@ -26,85 +48,115 @@ function generateId() {
 }
 
 export default async (req: Request, context: Context) => {
-  const headers = {
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-  };
-
-  if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers });
+  if (req.method === 'OPTIONS') {
+    return new Response(null, { status: 204, headers });
+  }
 
   const url = new URL(req.url);
   const pathParts = url.pathname.replace('/api/redirects', '').replace(/^\/|\/$/g, '').split('/').filter(Boolean);
 
   try {
-    // GET - list all redirects or check a path
+    // GET /api/redirects
     if (req.method === 'GET') {
-      const redirects = await getData('redirects');
-      return new Response(JSON.stringify({ data: redirects }), { headers });
+      const items = await getData('redirects');
+      return new Response(JSON.stringify({ data: items }), { headers });
     }
 
-    if (!verifyAuth(req)) {
+    // Verify authentication for write operations
+    const user = verifyAuth(req);
+    if (!user) {
       return new Response(JSON.stringify({ message: 'Unauthorized' }), { status: 401, headers });
     }
 
-    const body = await req.json();
-
-    // POST - create redirect
+    // POST /api/redirects
     if (req.method === 'POST') {
-      const { from_path, to_path, type, active } = body;
-
-      if (!from_path || !to_path) {
-        return new Response(JSON.stringify({ message: 'from_path and to_path required' }), { status: 400, headers });
+      const body = await req.json();
+      const validation = RedirectSchema.safeParse(body);
+      
+      if (!validation.success) {
+        return new Response(
+          JSON.stringify({ message: 'Validation error', errors: validation.error.errors }),
+          { status: 400, headers }
+        );
       }
 
-      const redirects = await getData('redirects');
+      const data = validation.data;
+      const items = await getData('redirects');
 
       // Check for duplicate from_path
-      if (redirects.some((r: any) => r.from_path === from_path)) {
-        return new Response(JSON.stringify({ message: 'Redirect for this path already exists' }), { status: 409, headers });
+      const existing = items.find((i: any) => i.from_path === data.from_path);
+      if (existing) {
+        return new Response(JSON.stringify({ message: 'From path already exists' }), { status: 409, headers });
       }
 
-      const newRedirect = {
+      const newItem = {
         id: generateId(),
-        from_path,
-        to_path,
-        type: type || 301,
-        active: active !== false,
+        ...data,
+        active: data.active ?? true,
         hits: 0,
         created_at: new Date().toISOString(),
       };
 
-      redirects.push(newRedirect);
-      await setData('redirects', redirects);
+      items.push(newItem);
+      await setData('redirects', items);
 
-      return new Response(JSON.stringify({ data: newRedirect }), { status: 201, headers });
+      return new Response(JSON.stringify({ data: newItem }), { status: 201, headers });
     }
 
     // PUT /api/redirects/:id
     if (req.method === 'PUT' && pathParts.length === 1) {
       const id = pathParts[0];
-      const redirects = await getData('redirects');
-      const index = redirects.findIndex((r: any) => r.id === id);
-      if (index === -1) return new Response(JSON.stringify({ message: 'Not found' }), { status: 404, headers });
+      const body = await req.json();
+      const validation = UpdateRedirectSchema.safeParse(body);
 
-      redirects[index] = { ...redirects[index], ...body };
-      await setData('redirects', redirects);
+      if (!validation.success) {
+        return new Response(
+          JSON.stringify({ message: 'Validation error', errors: validation.error.errors }),
+          { status: 400, headers }
+        );
+      }
 
-      return new Response(JSON.stringify({ data: redirects[index] }), { headers });
+      const data = validation.data;
+      const items = await getData('redirects');
+      const index = items.findIndex((i: any) => i.id === id);
+
+      if (index === -1) {
+        return new Response(JSON.stringify({ message: 'Redirect not found' }), { status: 404, headers });
+      }
+
+      // Check for duplicate from_path if being updated
+      if (data.from_path && data.from_path !== items[index].from_path) {
+        const existing = items.find((i: any) => i.from_path === data.from_path && i.id !== id);
+        if (existing) {
+          return new Response(JSON.stringify({ message: 'From path already exists' }), { status: 409, headers });
+        }
+      }
+
+      items[index] = { ...items[index], ...data };
+      await setData('redirects', items);
+
+      return new Response(JSON.stringify({ data: items[index] }), { headers });
     }
 
     // DELETE /api/redirects/:id
     if (req.method === 'DELETE' && pathParts.length === 1) {
       const id = pathParts[0];
-      const redirects = await getData('redirects');
-      await setData('redirects', redirects.filter((r: any) => r.id !== id));
-      return new Response(JSON.stringify({ success: true }), { headers });
+      const items = await getData('redirects');
+      const item = items.find((i: any) => i.id === id);
+
+      if (!item) {
+        return new Response(JSON.stringify({ message: 'Redirect not found' }), { status: 404, headers });
+      }
+
+      const filtered = items.filter((i: any) => i.id !== id);
+      await setData('redirects', filtered);
+
+      return new Response(JSON.stringify({ success: true, message: 'Redirect deleted' }), { headers });
     }
 
-    return new Response(JSON.stringify({ message: 'Not found' }), { status: 404, headers });
+    return new Response(JSON.stringify({ message: 'Method not allowed' }), { status: 405, headers });
   } catch (e: any) {
-    return new Response(JSON.stringify({ message: e.message }), { status: 500, headers });
+    console.error('Redirects error:', e);
+    return new Response(JSON.stringify({ message: 'Internal server error' }), { status: 500, headers });
   }
 };

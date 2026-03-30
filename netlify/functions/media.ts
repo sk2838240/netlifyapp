@@ -1,16 +1,33 @@
 import type { Context } from '@netlify/functions';
 import { getStore } from '@netlify/blobs';
+import jwt from 'jsonwebtoken';
+import { z } from 'zod';
 
 const store = getStore('cms-data');
 const mediaStore = getStore('cms-media');
+const JWT_SECRET = process.env.JWT_SECRET || 'change-this-secret-in-production-min-32-chars';
+const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || '*';
 
-function verifyAuth(req: Request): boolean {
+const headers = {
+  'Content-Type': 'application/json',
+  'Access-Control-Allow-Origin': ALLOWED_ORIGIN,
+  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+  'Access-Control-Allow-Credentials': 'true',
+};
+
+const MediaUpdateSchema = z.object({
+  alt_text: z.string().max(500).optional(),
+});
+
+function verifyAuth(req: Request): any {
   const auth = req.headers.get('Authorization');
-  if (!auth?.startsWith('Bearer ')) return false;
+  if (!auth?.startsWith('Bearer ')) return null;
   try {
-    const data = JSON.parse(Buffer.from(auth.slice(7), 'base64').toString('utf-8'));
-    return data.exp > Date.now();
-  } catch { return false; }
+    return jwt.verify(auth.slice(7), JWT_SECRET);
+  } catch {
+    return null;
+  }
 }
 
 async function getData(key: string): Promise<any[]> {
@@ -31,14 +48,9 @@ function generateSlug(title: string): string {
 }
 
 export default async (req: Request, context: Context) => {
-  const headers = {
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-  };
-
-  if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers });
+  if (req.method === 'OPTIONS') {
+    return new Response(null, { status: 204, headers });
+  }
 
   const url = new URL(req.url);
   const pathParts = url.pathname.replace('/api/media', '').replace(/^\/|\/$/g, '').split('/').filter(Boolean);
@@ -54,11 +66,15 @@ export default async (req: Request, context: Context) => {
     if (req.method === 'GET' && pathParts.length === 1) {
       const media = await getData('media');
       const item = media.find((m: any) => m.id === pathParts[0]);
-      if (!item) return new Response(JSON.stringify({ message: 'Not found' }), { status: 404, headers });
+      if (!item) {
+        return new Response(JSON.stringify({ message: 'Media not found' }), { status: 404, headers });
+      }
       return new Response(JSON.stringify({ data: item }), { headers });
     }
 
-    if (!verifyAuth(req)) {
+    // Verify authentication for write operations
+    const user = verifyAuth(req);
+    if (!user) {
       return new Response(JSON.stringify({ message: 'Unauthorized' }), { status: 401, headers });
     }
 
@@ -73,6 +89,17 @@ export default async (req: Request, context: Context) => {
         
         if (!file) {
           return new Response(JSON.stringify({ message: 'No file provided' }), { status: 400, headers });
+        }
+
+        // Validate file size (max 10MB)
+        if (file.size > 10 * 1024 * 1024) {
+          return new Response(JSON.stringify({ message: 'File size exceeds 10MB limit' }), { status: 400, headers });
+        }
+
+        // Validate file type
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml', 'application/pdf', 'video/mp4', 'audio/mpeg'];
+        if (!allowedTypes.includes(file.type)) {
+          return new Response(JSON.stringify({ message: 'File type not allowed' }), { status: 400, headers });
         }
 
         const buffer = await file.arrayBuffer();
@@ -109,7 +136,18 @@ export default async (req: Request, context: Context) => {
         return new Response(JSON.stringify({ message: 'Data and filename required' }), { status: 400, headers });
       }
 
+      // Validate file size (max 10MB)
       const buffer = Buffer.from(base64Data, 'base64');
+      if (buffer.byteLength > 10 * 1024 * 1024) {
+        return new Response(JSON.stringify({ message: 'File size exceeds 10MB limit' }), { status: 400, headers });
+      }
+
+      // Validate file type
+      const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml', 'application/pdf', 'video/mp4', 'audio/mpeg'];
+      if (mime_type && !allowedTypes.includes(mime_type)) {
+        return new Response(JSON.stringify({ message: 'File type not allowed' }), { status: 400, headers });
+      }
+
       const ext = filename.split('.').pop()?.toLowerCase() || 'bin';
       const storageName = `${Date.now()}-${generateSlug(filename.replace(/\.[^.]+$/, ''))}.${ext}`;
       const id = generateId();
@@ -139,27 +177,50 @@ export default async (req: Request, context: Context) => {
       const id = pathParts[0];
       const media = await getData('media');
       const item = media.find((m: any) => m.id === id);
-      if (item) {
-        try { await mediaStore.delete(item.filename); } catch {}
+
+      if (!item) {
+        return new Response(JSON.stringify({ message: 'Media not found' }), { status: 404, headers });
       }
-      await setData('media', media.filter((m: any) => m.id !== id));
-      return new Response(JSON.stringify({ success: true }), { headers });
+
+      // Delete from blob store
+      try { await mediaStore.delete(item.filename); } catch {}
+
+      const filtered = media.filter((m: any) => m.id !== id);
+      await setData('media', filtered);
+
+      return new Response(JSON.stringify({ success: true, message: 'Media deleted' }), { headers });
     }
 
     // PUT /api/media/:id - update metadata
     if (req.method === 'PUT' && pathParts.length === 1) {
       const id = pathParts[0];
       const body = await req.json();
+      const validation = MediaUpdateSchema.safeParse(body);
+
+      if (!validation.success) {
+        return new Response(
+          JSON.stringify({ message: 'Validation error', errors: validation.error.errors }),
+          { status: 400, headers }
+        );
+      }
+
+      const data = validation.data;
       const media = await getData('media');
       const index = media.findIndex((m: any) => m.id === id);
-      if (index === -1) return new Response(JSON.stringify({ message: 'Not found' }), { status: 404, headers });
-      media[index] = { ...media[index], alt_text: body.alt_text || media[index].alt_text };
+
+      if (index === -1) {
+        return new Response(JSON.stringify({ message: 'Media not found' }), { status: 404, headers });
+      }
+
+      media[index] = { ...media[index], ...data };
       await setData('media', media);
+
       return new Response(JSON.stringify({ data: media[index] }), { headers });
     }
 
-    return new Response(JSON.stringify({ message: 'Not found' }), { status: 404, headers });
+    return new Response(JSON.stringify({ message: 'Method not allowed' }), { status: 405, headers });
   } catch (e: any) {
-    return new Response(JSON.stringify({ message: e.message }), { status: 500, headers });
+    console.error('Media error:', e);
+    return new Response(JSON.stringify({ message: 'Internal server error' }), { status: 500, headers });
   }
 };

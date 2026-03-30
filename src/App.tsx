@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { ToastProvider } from './context/ToastContext';
+import ErrorBoundary from './components/ErrorBoundary';
 import SiteLayout from './components/site/SiteLayout';
 import AdminLayout from './components/admin/AdminLayout';
 import ProtectedRoute from './components/admin/ProtectedRoute';
@@ -32,41 +33,43 @@ import SitemapPage from './pages/admin/SitemapPage';
 
 export default function App() {
   return (
-    <AuthProvider>
-      <ToastProvider>
-        <Routes>
-          {/* Public Site */}
-          <Route element={<SiteLayout />}>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/blog" element={<BlogListPage />} />
-            <Route path="/blog/:slug" element={<BlogDetailPage />} />
-            <Route path="/press" element={<PressListPage />} />
-            <Route path="/press/:slug" element={<PressDetailPage />} />
-            <Route path="/page/:slug" element={<StaticPage />} />
-            <Route path=":slug" element={<StaticPage />} />
-            <Route path="*" element={<NotFoundPage />} />
-          </Route>
+    <ErrorBoundary>
+      <AuthProvider>
+        <ToastProvider>
+          <Routes>
+            {/* Public Site */}
+            <Route element={<SiteLayout />}>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/blog" element={<BlogListPage />} />
+              <Route path="/blog/:slug" element={<BlogDetailPage />} />
+              <Route path="/press" element={<PressListPage />} />
+              <Route path="/press/:slug" element={<PressDetailPage />} />
+              <Route path="/page/:slug" element={<StaticPage />} />
+              <Route path=":slug" element={<StaticPage />} />
+              <Route path="*" element={<NotFoundPage />} />
+            </Route>
 
-          {/* Admin */}
-          <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin" element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}>
-            <Route index element={<AdminDashboard />} />
-            <Route path="content/new" element={<ContentEditor />} />
-            <Route path="content/:id" element={<ContentEditor />} />
-            <Route path="categories" element={<CategoriesPage />} />
-            <Route path="tags" element={<TagsPage />} />
-            <Route path="faqs" element={<FAQPage />} />
-            <Route path="homepage" element={<HomePageEditor />} />
-            <Route path="media" element={<MediaLibraryPage />} />
-            <Route path="schedule" element={<SchedulePage />} />
-            <Route path="redirects" element={<RedirectsPage />} />
-            <Route path="sitemap" element={<SitemapPage />} />
-            <Route path="styles" element={<StyleCustomizer />} />
-            <Route path="navigation" element={<NavigationEditor />} />
-            <Route path="settings" element={<SettingsPage />} />
-          </Route>
-        </Routes>
-      </ToastProvider>
-    </AuthProvider>
+            {/* Admin */}
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin" element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}>
+              <Route index element={<AdminDashboard />} />
+              <Route path="content/new" element={<ContentEditor />} />
+              <Route path="content/:id" element={<ContentEditor />} />
+              <Route path="categories" element={<CategoriesPage />} />
+              <Route path="tags" element={<TagsPage />} />
+              <Route path="faqs" element={<FAQPage />} />
+              <Route path="homepage" element={<HomePageEditor />} />
+              <Route path="media" element={<MediaLibraryPage />} />
+              <Route path="schedule" element={<SchedulePage />} />
+              <Route path="redirects" element={<RedirectsPage />} />
+              <Route path="sitemap" element={<SitemapPage />} />
+              <Route path="styles" element={<StyleCustomizer />} />
+              <Route path="navigation" element={<NavigationEditor />} />
+              <Route path="settings" element={<SettingsPage />} />
+            </Route>
+          </Routes>
+        </ToastProvider>
+      </AuthProvider>
+    </ErrorBoundary>
   );
 }
