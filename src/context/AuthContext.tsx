@@ -27,7 +27,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (token) {
       api.verifyToken(token)
         .then((res) => {
-          if (res.valid) setUser(res.user);
+          if (res.valid && res.user) setUser(res.user);
           else localStorage.removeItem('cms_auth_token');
         })
         .catch(() => localStorage.removeItem('cms_auth_token'))

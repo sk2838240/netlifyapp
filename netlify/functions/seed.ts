@@ -16,7 +16,7 @@ async function getData(key: string): Promise<any[]> {
   return data || [];
 }
 
-async function setData(key: string, data: any[]) {
+async function setData(key: string, data: any) {
   await store.set(key, JSON.stringify(data));
 }
 

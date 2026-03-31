@@ -9,9 +9,12 @@ interface Breadcrumb {
 
 interface PageHeaderProps {
   title: string;
+  subtitle?: string;
   description?: string;
   breadcrumbs?: Breadcrumb[];
   actions?: ReactNode;
+  actionLabel?: string;
+  onAction?: () => void;
 }
 
 export default function PageHeader({ title, description, breadcrumbs, actions }: PageHeaderProps) {
