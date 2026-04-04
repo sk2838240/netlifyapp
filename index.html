@@ -1,15 +1,287 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CMS - Content Management System</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;700&family=Open+Sans:wght@300;400;500;600;700&family=Lato:wght@300;400;700&family=Poppins:wght@300;400;500;600;700;800&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Devika Group | India's #1 Real Estate Builder Since 1954</title>
+    <meta name="description" content="Devika Group - 70+ Years Legacy, 36 Projects Delivered, 6M+ Sq. Ft. Developed. Building Dreams, Delivering Landmarks Across India.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%A0%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="header-inner">
+            <a href="index.html" class="logo">
+                <div class="logo-img" style="font-size: 2rem;">🏢</div>
+                <div class="logo-text">Devika <span>Group</span></div>
+            </a>
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-link active">Home</a>
+                <a href="devika-sadar-bazar-delhi.html" class="nav-link">Sadar Bazaar</a>
+                <a href="devika-vibe-110-noida.html" class="nav-link">Vibe 110</a>
+                <a href="reviews.html" class="nav-link">Reviews</a>
+            </nav>
+            <div class="mobile-toggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span>🏆 Est. 1954 · 70+ Years of Legacy</span>
+                </div>
+                <h1 class="hero-title">
+                    Building Dreams, <span>Delivering Landmarks Across India</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Devika Group is India's #1 real estate builder and developer, with a powerful legacy spanning over 70 years and three generations of visionary leadership. Headquartered in New Delhi, Devika Group has consistently delivered world-class commercial and residential projects that stand as proud landmarks across Delhi-NCR.
+                </p>
+                <div class="hero-buttons">
+                    <a href="devika-sadar-bazar-delhi.html" class="btn btn-primary btn-lg">Explore Projects</a>
+                    <a href="reviews.html" class="btn btn-secondary btn-lg">View Reviews</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <span class="hero-stat-number">70+</span>
+                        <span class="hero-stat-label">Years Legacy</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="hero-stat-number">36</span>
+                        <span class="hero-stat-label">Projects Delivered</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="hero-stat-number">6M+</span>
+                        <span class="hero-stat-label">Sq. Ft. Developed</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="hero-stat-number">11,000+</span>
+                        <span class="hero-stat-label">Happy Customers</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-background"></div>
+    </section>
+
+    <!-- What We Do Section -->
+    <section class="section-padding bg-cream">
+        <div class="container">
+            <div class="section-header">
+                <span class="page-badge"><span>What We Do</span></span>
+                <h2 class="section-title">A Real Estate Legacy Built on Trust & Innovation</h2>
+                <p class="section-subtitle">
+                    For over seven decades, Devika Group has stood at the forefront of India's real estate industry — building not just structures, but lasting legacies. Led by seasoned professionals across three generations, the group has earned an unmatched reputation for delivering landmark commercial and residential projects across Delhi-NCR.
+                </p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🏢</div>
+                    <h4 class="feature-title">Commercial Real Estate</h4>
+                    <p class="feature-description">Office towers & business hubs redefining Delhi's skyline</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏡</div>
+                    <h4 class="feature-title">Residential Spaces</h4>
+                    <p class="feature-description">Modern homes designed for comfort, community & quality living</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌿</div>
+                    <h4 class="feature-title">Green Building Pioneer</h4>
+                    <p class="feature-description">Eco-conscious architecture; a concept we introduced to India</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📍</div>
+                    <h4 class="feature-title">Pan-India Presence</h4>
+                    <p class="feature-description">Active projects across Delhi, Uttar Pradesh & Goa</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="section-padding">
+        <div class="container">
+            <div class="section-header">
+                <span class="page-badge"><span>Our Projects</span></span>
+                <h2 class="section-title">Devika Group Projects</h2>
+                <p class="section-subtitle">
+                    Devika Group brings to life spaces that inspire, perform, and endure for generations. With an impressive portfolio of over 36 successfully delivered projects and more than 6 million square feet of developed real estate.
+                </p>
+            </div>
+            <div class="project-grid">
+                <div class="project-card">
+                    <div class="project-image">
+                        <div class="project-image-placeholder">📍</div>
+                        <span class="project-tag">Commercial</span>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-location">📍 Sadar Bazaar, New Delhi</div>
+                        <h3 class="project-title">Devika Sadar Bazaar</h3>
+                        <p class="project-description">
+                            A transformative landmark commercial development breathing new life into the iconic Sadar Bazaar locality creating a world-class business and retail destination right in the heart of New Delhi.
+                        </p>
+                        <a href="devika-sadar-bazar-delhi.html" class="project-link">
+                            Learn More →
+                        </a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">
+                        <div class="project-image-placeholder">🎯</div>
+                        <span class="project-tag">Mixed-Use</span>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-location">📍 Sector 110, Noida</div>
+                        <h3 class="project-title">Devika VIBE, Sector 110</h3>
+                        <p class="project-description">
+                            Devika Group's most vibrant mixed-use urban community in Noida thoughtfully designed for a new generation of forward-thinking individuals seeking dynamic, well-connected, and modern urban living.
+                        </p>
+                        <a href="devika-vibe-110-noida.html" class="project-link">
+                            Learn More →
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section class="section-padding bg-dark">
+        <div class="container">
+            <div class="section-header">
+                <span class="page-badge"><span>Why Choose Us</span></span>
+                <h2 class="section-title text-white">Why Devika Group Stands Apart from the Rest</h2>
+                <p class="section-subtitle text-white">
+                    When you choose Devika Group, you choose far more than a builder — you choose a legacy of integrity, craftsmanship, and unwavering commitment to excellence.
+                </p>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number">70+</span>
+                    <span class="stat-label">Years of Excellence</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">3</span>
+                    <span class="stat-label">Generations of Leadership</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">36</span>
+                    <span class="stat-label">Projects Delivered</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">11,000+</span>
+                    <span class="stat-label">Happy Customers</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="cta-title">Ready to Build Your Future with Devika Group?</h2>
+                <p class="cta-subtitle">
+                    Discover why thousands of families and businesses trust Devika Group for their real estate needs. Contact us today to explore our premium projects.
+                </p>
+                <div class="cta-buttons">
+                    <a href="devika-sadar-bazar-delhi.html" class="btn btn-primary btn-lg">View Sadar Bazaar</a>
+                    <a href="devika-vibe-110-noida.html" class="btn btn-secondary btn-lg">View Vibe 110</a>
+                </div>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <span class="contact-icon">📞</span>
+                        <span>+91 9818360361</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-icon">📍</span>
+                        <span>New Delhi, India</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-icon">✉️</span>
+                        <span>sales@devikagroup.com</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo-text">Devika <span>Group</span></div>
+                    <p class="footer-description">
+                        Devika Group is India's #1 real estate builder and developer with a legacy spanning over 70 years. We have consistently delivered world-class commercial and residential projects across Delhi-NCR.
+                    </p>
+                    <div class="footer-social">
+                        <a href="#" class="social-link">📘</a>
+                        <a href="#" class="social-link">📸</a>
+                        <a href="#" class="social-link">🐦</a>
+                        <a href="#" class="social-link">in</a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h5 class="footer-title">Quick Links</h5>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="devika-sadar-bazar-delhi.html">Sadar Bazaar</a></li>
+                        <li><a href="devika-vibe-110-noida.html">Vibe 110</a></li>
+                        <li><a href="reviews.html">Reviews</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h5 class="footer-title">Projects</h5>
+                    <ul class="footer-links">
+                        <li><a href="devika-sadar-bazar-delhi.html">Devika Sadar Bazaar</a></li>
+                        <li><a href="devika-vibe-110-noida.html">Devika Vibe 110</a></li>
+                        <li><a href="#">Devika Tower, Nehru Place</a></li>
+                        <li><a href="#">Devika Skypers, Raj Nagar</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h5 class="footer-title">Contact</h5>
+                    <ul class="footer-links">
+                        <li><a href="tel:+919818360361">+91 9818360361</a></li>
+                        <li><a href="mailto:sales@devikagroup.com">sales@devikagroup.com</a></li>
+                        <li><a href="#">Headquarters: New Delhi</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Devika Group. All Rights Reserved.</p>
+                <p>Built with ❤️ by Devika Group</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const navMenu = document.querySelector('.nav-menu');
+            navMenu.style.display = navMenu.style.display === 'flex' ? 'none' : 'flex';
+        }
+    </script>
+</body>
 </html>
