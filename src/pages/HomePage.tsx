@@ -93,36 +93,50 @@ export default function HomePage() {
       {sections.length === 0 && (
         <>
           {/* Hero Section */}
-          <section className="relative min-h-[90vh] flex items-center overflow-hidden" style={{ background: 'linear-gradient(135deg, #eff6ff 0%, #ffffff 40%, #f5f3ff 100%)' }}>
+          <section className="relative min-h-[85vh] flex items-center overflow-hidden bg-gradient-to-br from-slate-50 via-white to-blue-50/30">
             <div className="absolute inset-0 overflow-hidden">
-              <div className="absolute -top-40 -right-40 w-96 h-96 rounded-full bg-blue-100 opacity-50 blur-3xl" />
-              <div className="absolute -bottom-40 -left-40 w-96 h-96 rounded-full bg-purple-100 opacity-50 blur-3xl" />
+              <div className="absolute top-20 right-10 w-[500px] h-[500px] rounded-full bg-blue-200/20 blur-3xl" />
+              <div className="absolute bottom-20 left-10 w-[400px] h-[400px] rounded-full bg-purple-200/20 blur-3xl" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-gradient-to-r from-blue-100/30 to-purple-100/30 blur-3xl" />
             </div>
-            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-              <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+              <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                 <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}>
-                  <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 rounded-full mb-6">
+                  <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100/80 backdrop-blur-sm rounded-full mb-6 border border-blue-200/50">
                     <Sparkles className="w-4 h-4 text-blue-600" />
-                    <span className="text-sm font-medium text-blue-700">Powered by Netlify</span>
+                    <span className="text-sm font-semibold text-blue-700">Modern CMS Platform</span>
                   </div>
-                  <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
+                  <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-6 text-gray-900">
                     Build Something <span className="gradient-text">Amazing</span> Today
                   </h1>
-                  <p className="text-lg sm:text-xl mb-10 max-w-lg" style={{ color: 'var(--text-color)', opacity: 0.7 }}>
+                  <p className="text-lg sm:text-xl mb-8 max-w-lg text-gray-600 leading-relaxed">
                     A modern content management platform with blazing-fast performance, beautiful design, and powerful editing tools.
                   </p>
                   <div className="flex flex-wrap gap-4">
-                    <Link to="/blog" className="btn-primary text-base px-8 py-3.5">
+                    <Link to="/blog" className="btn-primary text-base px-8 py-3.5 shadow-lg shadow-blue-500/25">
                       Explore Blog <ArrowRight className="w-5 h-5" />
                     </Link>
-                    <Link to="/admin" className="btn-outline text-base px-8 py-3.5">
+                    <Link to="/admin" className="btn-outline text-base px-8 py-3.5 bg-white/80 backdrop-blur-sm">
                       Admin Panel
                     </Link>
+                  </div>
+                  <div className="flex items-center gap-6 mt-10 pt-6 border-t border-gray-200/50">
+                    <div className="flex -space-x-3">
+                      {[1, 2, 3, 4].map((i) => (
+                        <div key={i} className={`w-10 h-10 rounded-full border-2 border-white bg-gradient-to-br from-blue-${400 + i * 100} to-purple-${400 + i * 100} flex items-center justify-center text-white text-xs font-bold`}>
+                          {String.fromCharCode(64 + i)}
+                        </div>
+                      ))}
+                    </div>
+                    <div className="text-sm">
+                      <span className="font-semibold text-gray-900">2,500+</span>
+                      <span className="text-gray-500"> happy users</span>
+                    </div>
                   </div>
                 </motion.div>
                 <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.2 }} className="hidden lg:block">
                   <div className="relative">
-                    <div className="bg-white rounded-2xl shadow-2xl p-8 border border-gray-100">
+                    <div className="bg-white rounded-2xl shadow-2xl p-8 border border-gray-100/50">
                       <div className="flex items-center gap-3 mb-6">
                         <div className="w-3 h-3 rounded-full bg-red-400" />
                         <div className="w-3 h-3 rounded-full bg-yellow-400" />
@@ -141,7 +155,7 @@ export default function HomePage() {
                         <div className="h-10 bg-gray-100 rounded-lg w-28" />
                       </div>
                     </div>
-                    <div className="absolute -bottom-6 -left-6 bg-white rounded-xl shadow-lg p-4 border border-gray-100">
+                    <div className="absolute -bottom-6 -left-6 bg-white rounded-xl shadow-xl p-4 border border-gray-100">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
                           <Zap className="w-5 h-5 text-green-600" />
@@ -169,7 +183,9 @@ export default function HomePage() {
                   const Icon = stat.icon;
                   return (
                     <motion.div key={stat.label} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="text-center">
-                      <Icon className="w-6 h-6 mx-auto mb-3" style={{ color: 'var(--primary-color)' }} />
+                      <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-blue-50 mb-4">
+                        <Icon className="w-6 h-6" style={{ color: 'var(--primary-color)' }} />
+                      </div>
                       <div className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-1">{stat.value}</div>
                       <div className="text-sm text-gray-500 font-medium">{stat.label}</div>
                     </motion.div>
@@ -180,25 +196,25 @@ export default function HomePage() {
           </section>
 
           {/* Features Section */}
-          <section className="py-24" style={{ background: '#f9fafb' }}>
+          <section className="py-24 bg-gradient-to-b from-gray-50/50 to-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
-                <p className="text-sm font-semibold uppercase tracking-widest mb-4" style={{ color: 'var(--primary-color)' }}>Features</p>
+                <span className="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-100 rounded-full text-sm font-semibold text-blue-700 mb-4">Features</span>
                 <h2 className="mb-4">Everything You Need to Succeed</h2>
-                <p className="text-lg max-w-2xl mx-auto" style={{ opacity: 0.65 }}>
+                <p className="text-lg max-w-2xl mx-auto text-gray-600">
                   Powerful tools and features designed to help you create, manage, and deliver content at scale.
                 </p>
               </motion.div>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {features.map((feat, i) => {
                   const Icon = feat.icon;
                   return (
-                    <motion.div key={feat.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="card p-8 text-center">
-                      <div className="w-14 h-14 rounded-xl bg-blue-50 flex items-center justify-center mx-auto mb-5">
+                    <motion.div key={feat.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="group bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                      <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center mx-auto mb-5 group-hover:scale-110 transition-transform duration-300">
                         <Icon className="w-7 h-7 text-blue-600" />
                       </div>
-                      <h3 className="text-lg font-bold mb-3">{feat.title}</h3>
-                      <p className="text-sm leading-relaxed" style={{ opacity: 0.65 }}>{feat.desc}</p>
+                      <h3 className="text-lg font-bold mb-3 text-gray-900">{feat.title}</h3>
+                      <p className="text-sm leading-relaxed text-gray-600">{feat.desc}</p>
                     </motion.div>
                   );
                 })}

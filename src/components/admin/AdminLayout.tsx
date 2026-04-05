@@ -204,36 +204,36 @@ export default function AdminLayout() {
         }`}
       >
         {/* Top Header */}
-        <header className="hidden lg:block sticky top-0 z-20 bg-white/80 backdrop-blur-lg border-b border-gray-200">
-          <div className="flex items-center justify-between px-8 py-4">
+        <header className="hidden lg:block sticky top-0 z-20 bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm">
+          <div className="flex items-center justify-between px-6 py-3">
             <div className="flex items-center gap-4 flex-1">
               <div className="relative flex-1 max-w-md">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                 <input
                   type="text"
-                  placeholder="Search..."
-                  className="w-full pl-10 pr-4 py-2 bg-gray-100 border-0 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all"
+                  placeholder="Search content, pages, settings..."
+                  className="w-full pl-10 pr-4 py-2.5 bg-gray-100 border-0 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all"
                 />
               </div>
             </div>
 
-            <div className="flex items-center gap-4">
-              <button className="relative p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
+            <div className="flex items-center gap-3">
+              <button className="relative p-2.5 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-xl transition-colors">
                 <Bell className="w-5 h-5" />
-                <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
+                <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white" />
               </button>
 
               <div className="flex items-center gap-3 pl-4 border-l border-gray-200">
-                <div className="w-9 h-9 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
+                <div className="w-9 h-9 bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl flex items-center justify-center shadow-md">
                   <User className="w-4 h-4 text-white" />
                 </div>
                 <div className="hidden xl:block">
-                  <p className="text-sm font-medium text-gray-900">{user?.name || 'Admin'}</p>
+                  <p className="text-sm font-semibold text-gray-900">{user?.name || 'Admin'}</p>
                   <p className="text-xs text-gray-500">{user?.email}</p>
                 </div>
                 <button
                   onClick={handleLogout}
-                  className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                  className="p-2.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors"
                   title="Logout"
                 >
                   <LogOut className="w-4 h-4" />
@@ -244,8 +244,10 @@ export default function AdminLayout() {
         </header>
 
         {/* Page Content */}
-        <main className="p-4 lg:p-8 mt-14 lg:mt-0 pb-20 lg:pb-8">
-          <Outlet />
+        <main className="p-4 lg:p-6 mt-14 lg:mt-0 pb-24 lg:pb-8">
+          <div className="max-w-7xl mx-auto">
+            <Outlet />
+          </div>
         </main>
       </div>
 
