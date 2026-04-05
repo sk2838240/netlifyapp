@@ -244,10 +244,36 @@ export default function AdminLayout() {
         </header>
 
         {/* Page Content */}
-        <main className="p-4 lg:p-8 mt-14 lg:mt-0">
+        <main className="p-4 lg:p-8 mt-14 lg:mt-0 pb-20 lg:pb-8">
           <Outlet />
         </main>
       </div>
+
+      {/* Mobile Bottom Navigation */}
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-2 py-2 z-30">
+        <div className="flex items-center justify-around">
+          {[
+            { to: '/admin', icon: LayoutDashboard, label: 'Home' },
+            { to: '/admin/content/new', icon: FileText, label: 'New' },
+            { to: '/admin/media', icon: Image, label: 'Media' },
+            { to: '/admin/settings', icon: Settings, label: 'Settings' },
+          ].map((item) => (
+            <NavLink
+              key={item.to}
+              to={item.to}
+              end={item.to === '/admin'}
+              className={({ isActive }) =>
+                `flex flex-col items-center gap-1 px-3 py-2 rounded-lg transition-colors ${
+                  isActive ? 'text-blue-600' : 'text-gray-500'
+                }`
+              }
+            >
+              <item.icon className="w-5 h-5" />
+              <span className="text-xs">{item.label}</span>
+            </NavLink>
+          ))}
+        </div>
+      </nav>
     </div>
   );
 }

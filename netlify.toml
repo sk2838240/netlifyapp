@@ -123,12 +123,17 @@
   to = "/.netlify/functions/settings"
   status = 200
 
-[[redirects]]
+  [[redirects]]
   from = "/api/seed"
   to = "/.netlify/functions/seed"
   status = 200
 
-[[redirects]]
+  [[redirects]]
+  from = "/api/content/bulk"
+  to = "/.netlify/functions/content"
+  status = 200
+
+  [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200

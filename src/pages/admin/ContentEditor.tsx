@@ -1,11 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Save, ArrowLeft, Image, Calendar } from 'lucide-react';
+import { Save, ArrowLeft, Image, Calendar, Loader2, Cloud, CloudOff } from 'lucide-react';
 import { useContent, useCategories, useTags } from '../../hooks/useApi';
 import { useToast } from '../../context/ToastContext';
 import { ContentInput, ContentType, ContentStatus, SEOData, MediaItem } from '../../types';
 import SEOForm from '../../components/admin/SEOForm';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
+import RichTextEditor from '../../components/ui/RichTextEditor';
 import MediaLibrary from './MediaLibraryPage';
 
 const emptyForm: ContentInput = {
@@ -40,6 +41,53 @@ export default function ContentEditor() {
   const [scheduleTime, setScheduleTime] = useState('');
   const [showMediaPicker, setShowMediaPicker] = useState(false);
   const [existingScheduledAt, setExistingScheduledAt] = useState<string | null>(null);
+  
+  // Autosave functionality
+  const [autoSaveEnabled, setAutoSaveEnabled] = useState(true);
+  const [autoSaveStatus, setAutoSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
+  const autoSaveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const lastSavedRef = useRef<string>('');
+
+  // Autosave effect
+  const handleAutoSave = useCallback(async () => {
+    if (!id || !autoSaveEnabled || !form.title) return;
+    
+    const currentData = JSON.stringify(form);
+    if (currentData === lastSavedRef.current) return;
+    
+    setAutoSaveStatus('saving');
+    try {
+      const payload: any = {
+        ...form,
+        metadata: { ...form.metadata, seo },
+      };
+      if (form.status === 'scheduled' && scheduleDate && scheduleTime) {
+        payload.scheduled_at = new Date(`${scheduleDate}T${scheduleTime}`).toISOString();
+      }
+      await update(id, payload);
+      lastSavedRef.current = currentData;
+      setAutoSaveStatus('saved');
+      setTimeout(() => setAutoSaveStatus('idle'), 2000);
+    } catch {
+      setAutoSaveStatus('error');
+    }
+  }, [id, form, autoSaveEnabled, scheduleDate, scheduleTime, update]);
+
+  useEffect(() => {
+    if (!id || !autoSaveEnabled) return;
+    
+    if (autoSaveTimeoutRef.current) {
+      clearTimeout(autoSaveTimeoutRef.current);
+    }
+    
+    autoSaveTimeoutRef.current = setTimeout(handleAutoSave, 5000);
+    
+    return () => {
+      if (autoSaveTimeoutRef.current) {
+        clearTimeout(autoSaveTimeoutRef.current);
+      }
+    };
+  }, [form, id, autoSaveEnabled, handleAutoSave]);
 
   useEffect(() => {
     fetchCategories();
@@ -136,25 +184,65 @@ export default function ContentEditor() {
 
   if (loading) return <LoadingSpinner />;
 
+  // Auto-save indicator component
+  const AutoSaveIndicator = () => {
+    if (!id) return null;
+    
+    return (
+      <div className="flex items-center gap-2 text-sm">
+        {autoSaveStatus === 'saving' && (
+          <span className="flex items-center gap-1.5 text-gray-500">
+            <Loader2 className="w-3.5 h-3.5 animate-spin" />
+            Auto-saving...
+          </span>
+        )}
+        {autoSaveStatus === 'saved' && (
+          <span className="flex items-center gap-1.5 text-green-600">
+            <Cloud className="w-3.5 h-3.5" />
+            Saved
+          </span>
+        )}
+        {autoSaveStatus === 'error' && (
+          <span className="flex items-center gap-1.5 text-red-500">
+            <CloudOff className="w-3.5 h-3.5" />
+            Save failed
+          </span>
+        )}
+        <label className="flex items-center gap-1.5 cursor-pointer ml-2 text-gray-400 hover:text-gray-600">
+          <input
+            type="checkbox"
+            checked={autoSaveEnabled}
+            onChange={(e) => setAutoSaveEnabled(e.target.checked)}
+            className="w-3.5 h-3.5 rounded"
+          />
+          <span className="text-xs">Auto-save</span>
+        </label>
+      </div>
+    );
+  };
+
   return (
     <div>
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div className="flex items-center gap-4">
-          <button onClick={() => navigate('/admin')} className="text-gray-400 hover:text-gray-600">
+          <button onClick={() => navigate('/admin')} className="text-gray-400 hover:text-gray-600 p-1">
             <ArrowLeft className="w-5 h-5" />
           </button>
           <h1 className="text-2xl font-bold text-gray-900">
             {id ? 'Edit Content' : 'Create New Content'}
           </h1>
         </div>
-        <button
-          onClick={handleSave}
-          disabled={saving}
-          className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors disabled:opacity-50"
-        >
-          {saving ? <div className="w-4 h-4 animate-spin rounded-full border-2 border-white border-t-transparent" /> : <Save className="w-4 h-4" />}
-          {saving ? 'Saving...' : 'Save'}
-        </button>
+        <div className="flex items-center gap-3">
+          <AutoSaveIndicator />
+          <button
+            onClick={handleSave}
+            disabled={saving}
+            className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors disabled:opacity-50"
+          >
+            {saving ? <div className="w-4 h-4 animate-spin rounded-full border-2 border-white border-t-transparent" /> : <Save className="w-4 h-4" />}
+            {saving ? 'Saving...' : 'Save'}
+          </button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -196,13 +284,11 @@ export default function ContentEditor() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Body (HTML)</label>
-                <textarea
+                <label className="block text-sm font-medium text-gray-700 mb-1">Content</label>
+                <RichTextEditor
                   value={form.body}
-                  onChange={(e) => setForm((prev) => ({ ...prev, body: e.target.value }))}
-                  rows={16}
-                  className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 font-mono text-sm"
-                  placeholder="<p>Your content here...</p>"
+                  onChange={(value) => setForm((prev) => ({ ...prev, body: value }))}
+                  placeholder="Start writing your content..."
                 />
               </div>
 

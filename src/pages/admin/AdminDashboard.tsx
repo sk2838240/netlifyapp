@@ -1,10 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   Plus, Edit3, Trash2, Eye, FileText, BarChart3,
-  FolderOpen, Tag, HelpCircle, Home, ArrowRight, Calendar, User, Database, Loader2
+  FolderOpen, Tag, HelpCircle, Home, ArrowRight, Calendar, User, Database, Loader2,
+  CheckSquare, Square, Check, X, Search
 } from 'lucide-react';
+import { api } from '../../lib/api';
 import { useContent } from '../../hooks/useApi';
 import { useToast } from '../../context/ToastContext';
 import { Content, ContentType } from '../../types';
@@ -24,11 +26,41 @@ export default function AdminDashboard() {
   const { addToast } = useToast();
   const [activeTab, setActiveTab] = useState('all');
   const [search, setSearch] = useState('');
+  const [searchInput, setSearchInput] = useState('');
   const [stats, setStats] = useState({ total: 0, published: 0, draft: 0, pages: 0, blogs: 0, press: 0 });
   const [seeding, setSeeding] = useState(false);
+  const [selectedItems, setSelectedItems] = useState<Set<string>>(new Set());
+  const [bulkActionLoading, setBulkActionLoading] = useState(false);
+  const [pageLoading, setPageLoading] = useState(false);
+
+  // Search with debounce
+  const handleSearch = useCallback(async (query: string) => {
+    setPageLoading(true);
+    try {
+      const typeParam = activeTab === 'all' ? undefined : activeTab;
+      const response = await api.getContent(typeParam, 1, 50, query || undefined);
+      // Update the useContent hook's items
+      fetchAll(activeTab === 'all' ? undefined : activeTab);
+    } catch (error) {
+      console.error('Search error:', error);
+    }
+    setPageLoading(false);
+  }, [activeTab, fetchAll]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (searchInput !== search) {
+        setSearch(searchInput);
+        handleSearch(searchInput);
+      }
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [searchInput, search, handleSearch]);
 
   useEffect(() => {
     fetchAll(activeTab === 'all' ? undefined : activeTab);
+    setSearchInput('');
+    setSearch('');
   }, [activeTab, fetchAll]);
 
   useEffect(() => {
@@ -40,7 +72,62 @@ export default function AdminDashboard() {
       blogs: items.filter((i) => i.type === 'blog').length,
       press: items.filter((i) => i.type === 'press').length,
     });
+    // Clear selection when items change
+    setSelectedItems(prev => {
+      const newSet = new Set<string>();
+      prev.forEach(id => {
+        if (items.some(item => item.id === id)) {
+          newSet.add(id);
+        }
+      });
+      return newSet;
+    });
   }, [items]);
+
+  // Bulk selection
+  const toggleSelectAll = () => {
+    if (selectedItems.size === items.length) {
+      setSelectedItems(new Set());
+    } else {
+      setSelectedItems(new Set(items.map(item => item.id)));
+    }
+  };
+
+  const toggleSelectItem = (id: string) => {
+    setSelectedItems(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(id)) {
+        newSet.delete(id);
+      } else {
+        newSet.add(id);
+      }
+      return newSet;
+    });
+  };
+
+  // Bulk actions
+  const handleBulkAction = async (action: 'publish' | 'unpublish' | 'delete') => {
+    if (selectedItems.size === 0) return;
+    
+    const confirmMessages = {
+      publish: `Publish ${selectedItems.size} selected item(s)?`,
+      unpublish: `Unpublish ${selectedItems.size} selected item(s)?`,
+      delete: `Delete ${selectedItems.size} selected item(s)? This cannot be undone.`
+    };
+    
+    if (!confirm(confirmMessages[action])) return;
+    
+    setBulkActionLoading(true);
+    try {
+      const result = await api.bulkUpdateContent(Array.from(selectedItems), action);
+      addToast(result.message, 'success');
+      setSelectedItems(new Set());
+      fetchAll(activeTab === 'all' ? undefined : activeTab);
+    } catch (error) {
+      addToast('Bulk action failed', 'error');
+    }
+    setBulkActionLoading(false);
+  };
 
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this content?')) return;
@@ -187,6 +274,53 @@ export default function AdminDashboard() {
 
       {/* Content List */}
       <div className="admin-card">
+        {/* Bulk Actions Toolbar */}
+        {items.length > 0 && (
+          <div className="sticky top-0 bg-white border-b border-gray-100 px-6 py-3 flex flex-wrap items-center gap-3 z-10">
+            <button
+              onClick={toggleSelectAll}
+              className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 transition-colors"
+            >
+              {selectedItems.size === items.length ? (
+                <CheckSquare className="w-4 h-4 text-blue-600" />
+              ) : (
+                <Square className="w-4 h-4" />
+              )}
+              Select All
+            </button>
+            {selectedItems.size > 0 && (
+              <>
+                <span className="text-sm text-gray-500">
+                  {selectedItems.size} selected
+                </span>
+                <div className="flex items-center gap-2 ml-auto">
+                  <button
+                    onClick={() => handleBulkAction('publish')}
+                    disabled={bulkActionLoading}
+                    className="px-3 py-1.5 text-xs font-medium bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition-colors disabled:opacity-50"
+                  >
+                    Publish
+                  </button>
+                  <button
+                    onClick={() => handleBulkAction('unpublish')}
+                    disabled={bulkActionLoading}
+                    className="px-3 py-1.5 text-xs font-medium bg-amber-50 text-amber-700 rounded-lg hover:bg-amber-100 transition-colors disabled:opacity-50"
+                  >
+                    Unpublish
+                  </button>
+                  <button
+                    onClick={() => handleBulkAction('delete')}
+                    disabled={bulkActionLoading}
+                    className="px-3 py-1.5 text-xs font-medium bg-red-50 text-red-700 rounded-lg hover:bg-red-100 transition-colors disabled:opacity-50"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        )}
+
         <div className="admin-card-header flex items-center justify-between">
           <h3 className="font-semibold text-gray-900">Recent Content</h3>
           <span className="text-xs text-gray-400">{filteredItems.length} items</span>
@@ -215,6 +349,18 @@ export default function AdminDashboard() {
                 transition={{ delay: i * 0.02 }}
                 className="flex items-center justify-between px-6 py-4 hover:bg-gray-50/50 transition-colors group"
               >
+                {/* Checkbox */}
+                <button
+                  onClick={() => toggleSelectItem(item.id)}
+                  className="flex-shrink-0 mr-3"
+                >
+                  {selectedItems.has(item.id) ? (
+                    <CheckSquare className="w-4 h-4 text-blue-600" />
+                  ) : (
+                    <Square className="w-4 h-4 text-gray-300" />
+                  )}
+                </button>
+                
                 <div className="flex-1 min-w-0 mr-4">
                   <div className="flex items-center gap-2 mb-1.5 flex-wrap">
                     <h4 className="text-sm font-semibold text-gray-900 truncate max-w-md">{item.title}</h4>

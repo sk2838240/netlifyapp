@@ -92,6 +92,7 @@ export default async (req: Request, context: Context) => {
   const page = parseInt(url.searchParams.get('page') || '1');
   const limit = Math.min(parseInt(url.searchParams.get('limit') || '20'), 100);
   const statusFilter = url.searchParams.get('status');
+  const searchQuery = url.searchParams.get('q')?.toLowerCase();
 
   try {
     // GET /api/content or /api/content/:slug or /api/content/id/:id
@@ -104,6 +105,18 @@ export default async (req: Request, context: Context) => {
       }
       if (statusFilter) {
         items = items.filter((i: any) => i.status === statusFilter);
+      }
+      
+      // Apply search filter
+      if (searchQuery) {
+        items = items.filter((i: any) => 
+          i.title?.toLowerCase().includes(searchQuery) ||
+          i.body?.toLowerCase().includes(searchQuery) ||
+          i.slug?.toLowerCase().includes(searchQuery) ||
+          i.excerpt?.toLowerCase().includes(searchQuery) ||
+          i.categories?.some((c: string) => c.toLowerCase().includes(searchQuery)) ||
+          i.tags?.some((t: string) => t.toLowerCase().includes(searchQuery))
+        );
       }
 
       // Sort by updated_at descending
@@ -280,6 +293,56 @@ export default async (req: Request, context: Context) => {
 
       return new Response(
         JSON.stringify({ success: true, message: 'Content deleted' }),
+        { headers }
+      );
+    }
+
+    // POST /api/content/bulk - Bulk operations
+    if (req.method === 'POST' && pathParts.length === 1 && pathParts[0] === 'bulk') {
+      const body = await req.json();
+      const { ids, action } = body;
+
+      if (!ids || !Array.isArray(ids) || ids.length === 0) {
+        return new Response(
+          JSON.stringify({ message: 'No IDs provided' }),
+          { status: 400, headers }
+        );
+      }
+
+      if (!['publish', 'unpublish', 'delete'].includes(action)) {
+        return new Response(
+          JSON.stringify({ message: 'Invalid action' }),
+          { status: 400, headers }
+        );
+      }
+
+      const items = await getData('content');
+      let modified = 0;
+
+      if (action === 'delete') {
+        const filtered = items.filter((i: any) => !ids.includes(i.id));
+        await setData('content', filtered);
+        modified = items.length - filtered.length;
+      } else {
+        for (const item of items) {
+          if (ids.includes(item.id)) {
+            if (action === 'publish') {
+              item.status = 'published';
+            } else if (action === 'unpublish') {
+              item.status = 'draft';
+            }
+            item.updated_at = new Date().toISOString();
+            modified++;
+          }
+        }
+        await setData('content', items);
+      }
+
+      return new Response(
+        JSON.stringify({ 
+          success: true, 
+          message: `${modified} items ${action === 'delete' ? 'deleted' : 'updated'}` 
+        }),
         { headers }
       );
     }

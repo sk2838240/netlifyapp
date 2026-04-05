@@ -52,14 +52,22 @@ async function request<T>(endpoint: string, options?: RequestInit): Promise<T> {
 
 export const api = {
   // Content
-  getContent: (type?: string, page?: number, limit?: number) => {
+  getContent: (type?: string, page?: number, limit?: number, search?: string) => {
     const params = new URLSearchParams();
     if (type) params.append('type', type);
     if (page) params.append('page', page.toString());
     if (limit) params.append('limit', limit.toString());
+    if (search) params.append('q', search);
     const query = params.toString();
     return request<PaginatedResponse<Content>>(`/content${query ? `?${query}` : ''}`);
   },
+  
+  // Bulk content operations
+  bulkUpdateContent: (ids: string[], action: 'publish' | 'unpublish' | 'delete') =>
+    request<{ success: boolean; message: string }>('/content/bulk', {
+      method: 'POST',
+      body: JSON.stringify({ ids, action }),
+    }),
   
   getContentBySlug: (slug: string) =>
     request<{ data: Content }>(`/content/${slug}`),
