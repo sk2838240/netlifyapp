@@ -4,7 +4,7 @@ import Image from '@tiptap/extension-image';
 import Link from '@tiptap/extension-link';
 import Placeholder from '@tiptap/extension-placeholder';
 import TaskList from '@tiptap/extension-task-list';
-import TaskItem from '@tiptap/extension-task-list';
+import TaskItem from '@tiptap/extension-task-item';
 import {
   Bold, Italic, Strikethrough, Code, List, ListOrdered,
   Heading1, Heading2, Heading3, Quote, Undo, Redo,
