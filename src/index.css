@@ -2,6 +2,75 @@
 
 @source "../src/**/*.{js,ts,jsx,tsx}";
 
+/* Strapi Color System - Exact Palette */
+@theme {
+  /* Primary - Strapi Purple */
+  --color-primary-50: #f0f0ff;
+  --color-primary-100: #e0e0ff;
+  --color-primary-200: #c0c0ff;
+  --color-primary-300: #a0a0ff;
+  --color-primary-400: #8585ff;
+  --color-primary-500: #6b6bff;
+  --color-primary-600: #4945ff;
+  --color-primary-700: #3d3adb;
+  --color-primary-800: #2f2daf;
+  --color-primary-900: #211f82;
+  --color-primary: #4945ff;
+  --color-primary-50: #f0f0ff;
+  
+  /* Danger - Red */
+  --color-danger-50: #fcecea;
+  --color-danger-100: #fad8d3;
+  --color-danger-200: #f5c0b8;
+  --color-danger-300: #f0988d;
+  --color-danger-400: #e87666;
+  --color-danger-500: #d02b20;
+  --color-danger-600: #b23225;
+  --color-danger-700: #952a1d;
+  --color-danger-800: #782216;
+  --color-danger-900: #5c1a10;
+  --color-danger: #d02b20;
+  
+  /* Success - Green */
+  --color-success-50: #eafbe7;
+  --color-success-100: #d4f7ce;
+  --color-success-200: #b3eb9e;
+  --color-success-300: #8bda6b;
+  --color-success-400: #6ecb42;
+  --color-success-500: #328048;
+  --color-success-600: #2a6a3b;
+  --color-success-700: #21542e;
+  --color-success-800: #183e22;
+  --color-success-900: #0f2815;
+  --color-success: #328048;
+  
+  /* Warning - Orange */
+  --color-warning-50: #fdf4dc;
+  --color-warning-100: #fbe9b9;
+  --color-warning-200: #f8d78f;
+  --color-warning-300: #f5c064;
+  --color-warning-400: #f2ab3f;
+  --color-warning-500: #d9822f;
+  --color-warning-600: #b36b26;
+  --color-warning-700: #8d551f;
+  --color-warning-800: #683f17;
+  --color-warning-900: #42290f;
+  --color-warning: #d9822f;
+  
+  /* Neutrals - Strapi exact colors */
+  --color-neutral-0: #ffffff;
+  --color-neutral-50: #f6f6f9;
+  --color-neutral-100: #eeeef4;
+  --color-neutral-200: #eaeaef;
+  --color-neutral-300: #dcdce4;
+  --color-neutral-400: #c0c0cf;
+  --color-neutral-500: #a5a5ba;
+  --color-neutral-600: #666687;
+  --color-neutral-700: #4a4a6a;
+  --color-neutral-800: #32324d;
+  --color-neutral-900: #1f1f2e;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -9,70 +78,46 @@
 }
 
 :root {
-  /* Primary Brand Colors - Modern SaaS palette */
-  --primary-50: #eff6ff;
-  --primary-100: #dbeafe;
-  --primary-200: #bfdbfe;
-  --primary-300: #93c5fd;
-  --primary-400: #60a5fa;
-  --primary-500: #3b82f6;
-  --primary-600: #2563eb;
-  --primary-700: #1d4ed8;
-  --primary-800: #1e40af;
-  --primary-900: #1e3a8a;
+  /* Primary Brand - Strapi exact */
+  --color-primary: #4945ff;
+  --color-primary-hover: #3d3adb;
+  --color-primary-light: #6b6bff;
 
-  --primary: #2563eb;
-  --primary-hover: #1d4ed8;
-  --primary-light: #3b82f6;
+  /* Neutrals - Strapi exact */
+  --color-neutral-50: #f6f6f9;
+  --color-neutral-100: #eeeef4;
+  --color-neutral-200: #eaeaef;
+  --color-neutral-300: #dcdce4;
+  --color-neutral-400: #c0c0cf;
+  --color-neutral-500: #a5a5ba;
+  --color-neutral-600: #666687;
+  --color-neutral-700: #4a4a6a;
+  --color-neutral-800: #32324d;
+  --color-neutral-900: #1f1f2e;
 
-  /* Accent Colors */
-  --accent: #8b5cf6;
-  --accent-hover: #7c3aed;
-  --accent-light: #a78bfa;
-
-  /* Success, Warning, Error */
-  --success: #10b981;
-  --success-light: #34d399;
-  --warning: #f59e0b;
-  --warning-light: #fbbf24;
-  --error: #ef4444;
-  --error-light: #f87171;
-
-  /* Neutrals */
-  --gray-50: #f9fafb;
-  --gray-100: #f3f4f6;
-  --gray-200: #e5e7eb;
-  --gray-300: #d1d5db;
-  --gray-400: #9ca3af;
-  --gray-500: #6b7280;
-  --gray-600: #4b5563;
-  --gray-700: #374151;
-  --gray-800: #1f2937;
-  --gray-900: #111827;
-
-  /* Background & Surface */
+  /* Background */
   --bg-primary: #ffffff;
-  --bg-secondary: #f9fafb;
-  --bg-tertiary: #f3f4f6;
+  --bg-secondary: #f6f6f9;
+  --bg-tertiary: #eeeef4;
   --bg-card: #ffffff;
   --bg-input: #ffffff;
 
   /* Text */
-  --text-primary: #111827;
-  --text-secondary: #4b5563;
-  --text-tertiary: #9ca3af;
-  --text-muted: #6b7280;
+  --text-primary: #32324d;
+  --text-secondary: #666687;
+  --text-tertiary: #a5a5ba;
+  --text-muted: #8e8ea0;
 
   /* Borders */
-  --border-light: #e5e7eb;
-  --border-default: #d1d5db;
-  --border-focus: #3b82f6;
+  --border-light: #eaeaef;
+  --border-default: #dcdce4;
+  --border-focus: #4945ff;
 
   /* Typography */
-  --font-display: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
-  /* Font Sizes - Scale */
+  /* Font Sizes */
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
   --text-base: 1rem;
@@ -81,19 +126,6 @@
   --text-2xl: 1.5rem;
   --text-3xl: 1.875rem;
   --text-4xl: 2.25rem;
-  --text-5xl: 3rem;
-
-  /* Font Weights */
-  --font-normal: 400;
-  --font-medium: 500;
-  --font-semibold: 600;
-  --font-bold: 700;
-  --font-extrabold: 800;
-
-  /* Line Heights */
-  --leading-tight: 1.25;
-  --leading-normal: 1.5;
-  --leading-relaxed: 1.75;
 
   /* Spacing */
   --spacing-xs: 0.25rem;
@@ -101,44 +133,16 @@
   --spacing-md: 1rem;
   --spacing-lg: 1.5rem;
   --spacing-xl: 2rem;
-  --spacing-2xl: 3rem;
-  --spacing-3xl: 4rem;
 
-  /* Border Radius */
-  --radius-sm: 0.375rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;
-  --radius-xl: 1rem;
-  --radius-2xl: 1.5rem;
-  --radius-full: 9999px;
+  /* Border Radius - Strapi uses 4px */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.25rem;
+  --radius-lg: 0.25rem;
 
-  /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-
-  /* Theme-specific overrides */
-  --bg-color: var(--bg-primary);
-  --text-color: var(--text-primary);
-  --heading-font: var(--font-display);
-  --body-font: var(--font-body);
-  --border-radius: var(--radius-lg);
-  --card-shadow: var(--shadow-md);
-  --header-bg: rgba(255, 255, 255, 0.95);
-  --header-text: var(--text-primary);
-  --footer-bg: var(--gray-900);
-  --footer-text: var(--gray-300);
-  --button-color: var(--primary);
-  --button-text-color: #ffffff;
-  --link-color: var(--primary);
-  --link-hover-color: var(--primary-hover);
-  --h1-size: 2.5rem;
-  --h2-size: 2rem;
-  --h3-size: 1.5rem;
-  --paragraph-size: 1rem;
-  --paragraph-line-height: 1.75;
+  /* Shadows - Strapi exact */
+  --shadow-sm: 0 1px 4px rgba(33, 33, 52, 0.1);
+  --shadow-md: 0 4px 8px rgba(33, 33, 52, 0.1);
+  --shadow-lg: 0 8px 16px rgba(33, 33, 52, 0.15);
 }
 
 /* Base Styles */

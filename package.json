@@ -12,6 +12,8 @@
   "dependencies": {
     "@netlify/blobs": "^7.4.0",
     "@netlify/functions": "^2.8.1",
+    "@strapi/design-system": "^2.2.0",
+    "@strapi/icons": "^2.2.0",
     "@tiptap/extension-image": "^2.6.6",
     "@tiptap/extension-link": "^2.6.6",
     "@tiptap/extension-placeholder": "^2.6.6",
