@@ -194,68 +194,78 @@ export default function HomePage() {
                       </div>
                       
                       {/* Code-like content */}
-                      <div className="space-y-4 font-mono text-sm">
-                        <div className="flex items-center gap-2">
-                          <span className="text-green-500">✓</span>
-                          <span className="text-gray-500">Installing dependencies...</span>
+                      <div className="relative z-10 space-y-3.5 font-mono text-sm">
+                        <div className="flex items-center gap-3">
+                          <span className="text-green-400">✓</span>
+                          <span className="text-slate-400">Installing dependencies...</span>
                         </div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-green-500">✓</span>
-                          <span className="text-gray-500">Building application...</span>
+                        <div className="flex items-center gap-3">
+                          <span className="text-green-400">✓</span>
+                          <span className="text-slate-400">Building application...</span>
                         </div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-green-500">✓</span>
-                          <span className="text-gray-500">Optimizing assets...</span>
+                        <div className="flex items-center gap-3">
+                          <span className="text-green-400">✓</span>
+                          <span className="text-slate-400">Optimizing assets...</span>
                         </div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-blue-500">→</span>
-                          <span className="text-gray-900">Deployed to Edge Network</span>
+                        <div className="flex items-center gap-3">
+                          <span className="text-blue-400">→</span>
+                          <span className="text-white font-medium">Deployed to Edge Network</span>
                         </div>
                       </div>
                       
                       {/* Deploy stats */}
-                      <div className="mt-8 pt-6 border-t border-gray-100">
+                      <div className="relative z-10 mt-8 pt-6 border-t border-white/10">
                         <div className="grid grid-cols-3 gap-4 text-center">
                           <div>
-                            <div className="text-2xl font-bold text-gray-900">2.3s</div>
-                            <div className="text-xs text-gray-500">Deploy time</div>
+                            <div className="text-2xl font-bold text-white">2.3s</div>
+                            <div className="text-xs text-slate-500">Deploy time</div>
                           </div>
                           <div>
-                            <div className="text-2xl font-bold text-gray-900">14MB</div>
-                            <div className="text-xs text-gray-500">Bundle size</div>
+                            <div className="text-2xl font-bold text-white">14MB</div>
+                            <div className="text-xs text-slate-500">Bundle size</div>
                           </div>
                           <div>
-                            <div className="text-2xl font-bold text-gray-900">100%</div>
-                            <div className="text-xs text-gray-500">Uptime</div>
+                            <div className="text-2xl font-bold text-white">100%</div>
+                            <div className="text-xs text-slate-500">Uptime</div>
                           </div>
                         </div>
                       </div>
                     </div>
                     
-                    {/* Floating badges */}
-                    <div className="absolute -top-4 -right-4 bg-white rounded-xl shadow-lg p-4 border border-gray-100">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                          <Zap className="w-5 h-5 text-green-600" />
+                    {/* Floating badges - dark glass theme */}
+                    <motion.div 
+                      initial={{ opacity: 0, y: -10 }} 
+                      animate={{ opacity: 1, y: 0 }} 
+                      transition={{ delay: 0.8, duration: 0.5 }}
+                      className="absolute -top-3 -right-3 bg-slate-800/80 backdrop-blur-xl rounded-xl shadow-2xl p-3.5 border border-white/10"
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center">
+                          <Zap className="w-4 h-4 text-green-400" />
                         </div>
                         <div>
-                          <div className="text-sm font-bold text-gray-900">Live</div>
-                          <div className="text-xs text-gray-500">Production</div>
+                          <div className="text-xs font-bold text-white">Live</div>
+                          <div className="text-[10px] text-slate-400">Production</div>
                         </div>
                       </div>
-                    </div>
+                    </motion.div>
                     
-                    <div className="absolute -bottom-4 -left-4 bg-white rounded-xl shadow-lg p-4 border border-gray-100">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                          <Globe className="w-5 h-5 text-blue-600" />
+                    <motion.div 
+                      initial={{ opacity: 0, y: 10 }} 
+                      animate={{ opacity: 1, y: 0 }} 
+                      transition={{ delay: 1, duration: 0.5 }}
+                      className="absolute -bottom-3 -left-3 bg-slate-800/80 backdrop-blur-xl rounded-xl shadow-2xl p-3.5 border border-white/10"
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                          <Globe className="w-4 h-4 text-blue-400" />
                         </div>
                         <div>
-                          <div className="text-sm font-bold text-gray-900">Global</div>
-                          <div className="text-xs text-gray-500">300+ edges</div>
+                          <div className="text-xs font-bold text-white">Global</div>
+                          <div className="text-[10px] text-slate-400">300+ edges</div>
                         </div>
                       </div>
-                    </div>
+                    </motion.div>
                   </div>
                 </motion.div>
               </div>
@@ -263,7 +273,7 @@ export default function HomePage() {
             
             {/* Scroll indicator */}
             <motion.div animate={{ y: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 2 }} className="absolute bottom-8 left-1/2 -translate-x-1/2">
-              <ChevronDown className="w-6 h-6 text-gray-400" />
+              <ChevronDown className="w-6 h-6 text-slate-500" />
             </motion.div>
           </section>
 

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Lock, Mail, Eye, EyeOff, LayoutDashboard, Sparkles, Shield, Zap } from 'lucide-react';
+import { Lock, Mail, Eye, EyeOff, LayoutDashboard, Sparkles, Shield, Zap, Layers } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
 export default function AdminLogin() {
@@ -27,48 +27,56 @@ export default function AdminLogin() {
   };
 
   const features = [
-    { icon: Sparkles, text: 'Create and manage pages, blogs, and press releases' },
-    { icon: Shield, text: 'Customize styles, navigation, and site settings' },
-    { icon: Zap, text: 'Media library with drag-and-drop uploads' },
-    { icon: LayoutDashboard, text: 'SEO tools and sitemap generation' },
+    { icon: Sparkles, text: 'Rich text editor with media support', color: 'from-blue-500 to-blue-600' },
+    { icon: Shield, text: 'Enterprise-grade security & auth', color: 'from-emerald-500 to-teal-600' },
+    { icon: Zap, text: 'Lightning-fast serverless backend', color: 'from-amber-500 to-orange-500' },
+    { icon: Layers, text: 'Full SEO tools & sitemap generation', color: 'from-violet-500 to-purple-600' },
   ];
 
   return (
-    <div className="min-h-screen flex bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+    <div className="min-h-screen flex bg-[#0a0f1c]">
+      {/* Ambient background */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-[-10%] right-[20%] w-[600px] h-[600px] rounded-full bg-blue-600/8 blur-[120px]" />
+        <div className="absolute bottom-[-10%] left-[10%] w-[500px] h-[500px] rounded-full bg-indigo-600/8 blur-[120px]" />
+        <div 
+          className="absolute inset-0" 
+          style={{ 
+            backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px)',
+            backgroundSize: '60px 60px',
+            maskImage: 'radial-gradient(ellipse at center, black 30%, transparent 70%)',
+            WebkitMaskImage: 'radial-gradient(ellipse at center, black 30%, transparent 70%)'
+          }} 
+        />
+      </div>
+
       {/* Left side - Branding */}
       <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
-        {/* Animated background */}
-        <div className="absolute inset-0">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-blue-500/20 rounded-full blur-3xl animate-pulse delay-1000" />
-          <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-pink-500/20 rounded-full blur-3xl animate-pulse delay-500" />
-        </div>
-
         <div className="relative z-10 flex flex-col justify-center px-12 xl:px-20">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <div className="flex items-center gap-4 mb-12">
-              <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg shadow-purple-500/30">
-                <LayoutDashboard className="w-7 h-7 text-white" />
+            <div className="flex items-center gap-4 mb-14">
+              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-600/30">
+                <LayoutDashboard className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h1 className="text-3xl font-bold text-white">CMS Admin</h1>
-                <p className="text-purple-300 text-sm">Content Management System</p>
+                <h1 className="text-2xl font-bold text-white tracking-wide">CMS Admin</h1>
+                <p className="text-blue-400/70 text-xs font-medium uppercase tracking-wider">Content Management</p>
               </div>
             </div>
 
-            <h2 className="text-4xl xl:text-5xl font-extrabold text-white mb-6 leading-tight">
-              Manage Your Content
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
-                With Ease
+            <h2 className="text-4xl xl:text-5xl font-extrabold text-white mb-6 leading-[1.15]">
+              Manage Your
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 mt-1">
+                Content With Ease
               </span>
             </h2>
 
-            <p className="text-lg text-purple-200/80 leading-relaxed mb-10 max-w-md">
-              A powerful content management system built for speed, simplicity, and scalability. 
+            <p className="text-lg text-slate-400 leading-relaxed mb-12 max-w-md">
+              A powerful CMS built for speed, simplicity, and scalability. 
               Create, edit, and publish content in minutes.
             </p>
 
@@ -81,10 +89,10 @@ export default function AdminLogin() {
                   transition={{ duration: 0.4, delay: 0.2 + index * 0.1 }}
                   className="flex items-center gap-4 group"
                 >
-                  <div className="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-sm flex items-center justify-center flex-shrink-0 group-hover:bg-white/20 transition-colors">
-                    <feature.icon className="w-5 h-5 text-purple-300" />
+                  <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${feature.color} flex items-center justify-center flex-shrink-0 shadow-lg opacity-80 group-hover:opacity-100 transition-opacity`}>
+                    <feature.icon className="w-5 h-5 text-white" />
                   </div>
-                  <span className="text-purple-100 text-sm">{feature.text}</span>
+                  <span className="text-slate-300 text-sm">{feature.text}</span>
                 </motion.div>
               ))}
             </div>
@@ -93,7 +101,7 @@ export default function AdminLogin() {
       </div>
 
       {/* Right side - Form */}
-      <div className="flex-1 flex items-center justify-center px-4 sm:px-8 py-12">
+      <div className="flex-1 flex items-center justify-center px-4 sm:px-8 py-12 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -102,44 +110,44 @@ export default function AdminLogin() {
         >
           {/* Mobile logo */}
           <div className="lg:hidden flex items-center justify-center gap-3 mb-10">
-            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
-              <LayoutDashboard className="w-6 h-6 text-white" />
+            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-600/30">
+              <LayoutDashboard className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-white">CMS Admin</h1>
-              <p className="text-purple-300 text-xs">Content Management</p>
+              <h1 className="text-xl font-bold text-white">CMS Admin</h1>
+              <p className="text-blue-400/70 text-[10px] uppercase tracking-wider font-medium">Content Management</p>
             </div>
           </div>
 
-          <div className="bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl p-8 sm:p-10 border border-white/20">
+          <div className="bg-white/[0.04] backdrop-blur-xl rounded-2xl shadow-2xl p-8 sm:p-10 border border-white/[0.08]">
             <div className="mb-8">
-              <h1 className="text-2xl font-bold text-white mb-2">Welcome back</h1>
-              <p className="text-purple-200/70">Sign in to your admin dashboard</p>
+              <h1 className="text-2xl font-bold text-white mb-1.5">Welcome back</h1>
+              <p className="text-slate-400 text-sm">Sign in to your admin dashboard</p>
             </div>
 
             {error && (
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-red-500/10 border border-red-500/30 text-red-300 text-sm rounded-xl p-4 mb-6 flex items-center gap-3"
+                className="bg-red-500/10 border border-red-500/20 text-red-300 text-sm rounded-xl p-4 mb-6 flex items-center gap-3"
               >
                 <div className="w-2 h-2 bg-red-400 rounded-full flex-shrink-0" />
                 {error}
               </motion.div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-5">
               <div>
-                <label className="block text-sm font-medium text-purple-200 mb-2">
+                <label className="block text-sm font-medium text-slate-300 mb-2">
                   Email Address
                 </label>
                 <div className="relative">
-                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-purple-400" />
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
                   <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full pl-12 pr-4 py-3.5 bg-white/5 border border-white/10 rounded-xl text-white placeholder-purple-300/50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                    className="w-full pl-11 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/50 transition-all text-sm"
                     placeholder="admin@cms.local"
                     required
                   />
@@ -147,25 +155,25 @@ export default function AdminLogin() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-purple-200 mb-2">
+                <label className="block text-sm font-medium text-slate-300 mb-2">
                   Password
                 </label>
                 <div className="relative">
-                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-purple-400" />
+                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
                   <input
                     type={showPassword ? 'text' : 'password'}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full pl-12 pr-12 py-3.5 bg-white/5 border border-white/10 rounded-xl text-white placeholder-purple-300/50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                    className="w-full pl-11 pr-12 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/50 transition-all text-sm"
                     placeholder="Enter your password"
                     required
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-purple-400 hover:text-purple-300 transition-colors"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors"
                   >
-                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
                 </div>
               </div>
@@ -173,11 +181,11 @@ export default function AdminLogin() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3.5 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:-translate-y-0.5"
+                className="w-full py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-blue-600/25 hover:shadow-blue-600/40 hover:-translate-y-0.5 text-sm"
               >
                 {loading ? (
                   <>
-                    <div className="w-5 h-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                    <div className="w-4 h-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
                     Signing in...
                   </>
                 ) : (
@@ -186,18 +194,18 @@ export default function AdminLogin() {
               </button>
             </form>
 
-            <div className="mt-8 pt-6 border-t border-white/10 text-center">
-              <p className="text-xs text-purple-300/50">
+            <div className="mt-8 pt-6 border-t border-white/5 text-center">
+              <p className="text-[11px] text-slate-500">
                 Default credentials:{' '}
-                <span className="font-mono text-purple-300">admin@cms.local</span>
+                <span className="font-mono text-slate-400">admin@cms.local</span>
                 {' / '}
-                <span className="font-mono text-purple-300">admin123</span>
+                <span className="font-mono text-slate-400">admin123</span>
               </p>
             </div>
           </div>
 
-          <p className="text-center mt-8 text-sm text-purple-300/50">
-            <a href="/" className="hover:text-purple-300 transition-colors">
+          <p className="text-center mt-8 text-sm text-slate-500">
+            <a href="/" className="hover:text-slate-300 transition-colors">
               ← Back to website
             </a>
           </p>
