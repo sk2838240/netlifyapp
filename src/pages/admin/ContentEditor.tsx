@@ -190,25 +190,25 @@ export default function ContentEditor() {
     
     return (
       <div className="flex items-center gap-2 text-sm">
-        {autoSaveStatus === 'saving' && (
-          <span className="flex items-center gap-1.5 text-gray-500">
+          {autoSaveStatus === 'saving' && (
+          <span className="flex items-center gap-1.5 text-neutral-500">
             <Loader2 className="w-3.5 h-3.5 animate-spin" />
             Auto-saving...
           </span>
         )}
         {autoSaveStatus === 'saved' && (
-          <span className="flex items-center gap-1.5 text-green-600">
+          <span className="flex items-center gap-1.5 text-success-600">
             <Cloud className="w-3.5 h-3.5" />
             Saved
           </span>
         )}
         {autoSaveStatus === 'error' && (
-          <span className="flex items-center gap-1.5 text-red-500">
+          <span className="flex items-center gap-1.5 text-danger-600">
             <CloudOff className="w-3.5 h-3.5" />
             Save failed
           </span>
         )}
-        <label className="flex items-center gap-1.5 cursor-pointer ml-2 text-gray-400 hover:text-gray-600">
+          <label className="flex items-center gap-1.5 cursor-pointer ml-2 text-neutral-400 hover:text-neutral-600">
           <input
             type="checkbox"
             checked={autoSaveEnabled}
@@ -222,13 +222,13 @@ export default function ContentEditor() {
   };
 
   return (
-    <div>
+    <div className="max-w-5xl">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div className="flex items-center gap-4">
-          <button onClick={() => navigate('/admin')} className="text-gray-400 hover:text-gray-600 p-1">
+          <button onClick={() => navigate('/admin')} className="text-neutral-500 hover:text-neutral-700 p-1">
             <ArrowLeft className="w-5 h-5" />
           </button>
-          <h1 className="text-2xl font-bold text-gray-900">
+          <h1 className="text-2xl font-bold text-neutral-800">
             {id ? 'Edit Content' : 'Create New Content'}
           </h1>
         </div>
@@ -237,7 +237,7 @@ export default function ContentEditor() {
           <button
             onClick={handleSave}
             disabled={saving}
-            className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors disabled:opacity-50"
+            className="flex items-center gap-2 px-6 py-2.5 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded transition-colors disabled:opacity-50"
           >
             {saving ? <div className="w-4 h-4 animate-spin rounded-full border-2 border-white border-t-transparent" /> : <Save className="w-4 h-4" />}
             {saving ? 'Saving...' : 'Save'}
@@ -245,9 +245,9 @@ export default function ContentEditor() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
         {/* Main Content */}
-        <div className="lg:col-span-2 space-y-6">
+        <div className="xl:col-span-3 space-y-6">
           <div className="bg-white rounded-xl border border-gray-200 p-6">
             <div className="space-y-4">
               <div>
@@ -284,7 +284,7 @@ export default function ContentEditor() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Content</label>
+                <label className="block text-sm font-medium text-neutral-700 mb-1">Content</label>
                 <RichTextEditor
                   value={form.body}
                   onChange={(value) => setForm((prev) => ({ ...prev, body: value }))}
@@ -293,28 +293,28 @@ export default function ContentEditor() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Featured Image</label>
+                <label className="block text-sm font-medium text-neutral-700 mb-1">Featured Image</label>
                 <div className="flex gap-2">
                   <input
                     type="text"
                     value={form.image || ''}
                     onChange={(e) => setForm((prev) => ({ ...prev, image: e.target.value }))}
-                    className="flex-1 px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                    className="flex-1 px-3 py-2.5 border border-neutral-300 rounded focus:outline-none focus:border-primary-600"
                     placeholder="https://..."
                   />
                   <button
                     onClick={() => setShowMediaPicker(!showMediaPicker)}
-                    className="px-3 py-2.5 border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-50 transition-colors"
+                    className="px-3 py-2.5 border border-neutral-300 rounded text-neutral-600 hover:bg-neutral-50 transition-colors"
                     title="Browse Media"
                   >
                     <Image className="w-4 h-4" />
                   </button>
                 </div>
                 {form.image && (
-                  <img src={form.image} alt="Preview" className="mt-2 max-h-40 rounded-lg object-cover" />
+                  <img src={form.image} alt="Preview" className="mt-2 max-h-40 rounded object-cover" />
                 )}
                 {showMediaPicker && (
-                  <div className="mt-3 border border-gray-200 rounded-xl p-4 bg-gray-50">
+                  <div className="mt-3 border border-neutral-200 rounded-xl p-4 bg-neutral-50">
                     <MediaLibrary
                       selectable
                       onSelect={(item: MediaItem) => {
@@ -325,7 +325,7 @@ export default function ContentEditor() {
                     />
                     <button
                       onClick={() => setShowMediaPicker(false)}
-                      className="mt-3 text-sm text-gray-500 hover:text-gray-700"
+                      className="mt-3 text-sm text-neutral-500 hover:text-neutral-700"
                     >
                       Close media picker
                     </button>
@@ -336,7 +336,7 @@ export default function ContentEditor() {
           </div>
 
           {/* SEO Form */}
-          <div className="bg-white rounded-xl border border-gray-200 p-6">
+          <div className="bg-white rounded border border-neutral-300 p-6">
             <SEOForm data={seo} onChange={setSeo} />
           </div>
         </div>
@@ -344,15 +344,15 @@ export default function ContentEditor() {
         {/* Sidebar */}
         <div className="space-y-6">
           {/* Type & Status */}
-          <div className="bg-white rounded-xl border border-gray-200 p-6">
-            <h3 className="font-semibold text-gray-900 mb-4">Publish Settings</h3>
+          <div className="bg-white rounded border border-neutral-300 p-6">
+            <h3 className="font-semibold text-neutral-800 mb-4">Publish Settings</h3>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Type</label>
+                <label className="block text-sm font-medium text-neutral-700 mb-1">Type</label>
                 <select
                   value={form.type}
                   onChange={(e) => setForm((prev) => ({ ...prev, type: e.target.value as ContentType }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                  className="w-full px-3 py-2 border border-neutral-300 rounded focus:outline-none focus:border-primary-600"
                 >
                   <option value="page">Page</option>
                   <option value="blog">Blog</option>
@@ -360,11 +360,11 @@ export default function ContentEditor() {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                <label className="block text-sm font-medium text-neutral-700 mb-1">Status</label>
                 <select
                   value={form.status}
                   onChange={(e) => setForm((prev) => ({ ...prev, status: e.target.value as ContentStatus }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                  className="w-full px-3 py-2 border border-neutral-300 rounded focus:outline-none focus:border-primary-600"
                 >
                   <option value="draft">Draft</option>
                   <option value="published">Published</option>
@@ -373,46 +373,46 @@ export default function ContentEditor() {
               </div>
 
               {form.status === 'scheduled' && (
-                <div className="bg-orange-50 rounded-lg p-4 space-y-3">
-                  <div className="flex items-center gap-2 text-orange-700 text-sm font-medium">
+                <div className="bg-warning-50 rounded-lg p-4 space-y-3">
+                  <div className="flex items-center gap-2 text-warning-700 text-sm font-medium">
                     <Calendar className="w-4 h-4" />
                     Schedule Publication
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-xs font-medium text-gray-600 mb-1">Date</label>
+                      <label className="block text-xs font-medium text-neutral-600 mb-1">Date</label>
                       <input
                         type="date"
                         value={scheduleDate}
                         onChange={(e) => setScheduleDate(e.target.value)}
                         min={new Date().toISOString().split('T')[0]}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-blue-500"
+                        className="w-full px-3 py-2 border border-neutral-300 rounded text-sm focus:outline-none focus:border-primary-600"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-medium text-gray-600 mb-1">Time</label>
+                      <label className="block text-xs font-medium text-neutral-600 mb-1">Time</label>
                       <input
                         type="time"
                         value={scheduleTime}
                         onChange={(e) => setScheduleTime(e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-blue-500"
+                        className="w-full px-3 py-2 border border-neutral-300 rounded text-sm focus:outline-none focus:border-primary-600"
                       />
                     </div>
                   </div>
                   {scheduleDate && scheduleTime && (
-                    <p className="text-xs text-orange-600">
+                    <p className="text-xs text-warning-600">
                       Will publish on {new Date(`${scheduleDate}T${scheduleTime}`).toLocaleString()}
                     </p>
                   )}
                 </div>
               )}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Author</label>
+                <label className="block text-sm font-medium text-neutral-700 mb-1">Author</label>
                 <input
                   type="text"
                   value={form.author || ''}
                   onChange={(e) => setForm((prev) => ({ ...prev, author: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                  className="w-full px-3 py-2 border border-neutral-300 rounded focus:outline-none focus:border-primary-600"
                   placeholder="Author name"
                 />
               </div>
@@ -423,22 +423,22 @@ export default function ContentEditor() {
                   onChange={(e) => setForm((prev) => ({ ...prev, featured: e.target.checked }))}
                   className="rounded"
                 />
-                <span className="text-sm text-gray-700">Featured</span>
+                <span className="text-sm text-neutral-700">Featured</span>
               </label>
             </div>
           </div>
 
           {/* Categories */}
-          <div className="bg-white rounded-xl border border-gray-200 p-6">
-            <h3 className="font-semibold text-gray-900 mb-4">Categories</h3>
+          <div className="bg-white rounded border border-neutral-300 p-6">
+            <h3 className="font-semibold text-neutral-800 mb-4">Categories</h3>
             <div className="flex flex-wrap gap-2 mb-3">
               {(form.categories || []).map((cat) => (
                 <span
                   key={cat}
-                  className="inline-flex items-center gap-1 px-2 py-1 bg-blue-50 text-blue-700 rounded text-xs font-medium"
+                  className="inline-flex items-center gap-1 px-2 py-1 bg-primary-50 text-primary-700 rounded text-xs font-medium"
                 >
                   {cat}
-                  <button onClick={() => removeCategoryTag('categories', cat)} className="hover:text-red-600">&times;</button>
+                  <button onClick={() => removeCategoryTag('categories', cat)} className="hover:text-danger-600">&times;</button>
                 </span>
               ))}
             </div>
@@ -448,20 +448,20 @@ export default function ContentEditor() {
                 value={newCategory}
                 onChange={(e) => setNewCategory(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && addCategoryTag('categories', newCategory)}
-                className="flex-1 px-3 py-1.5 border border-gray-300 rounded text-sm focus:outline-none focus:border-blue-500"
+                className="flex-1 px-3 py-1.5 border border-neutral-300 rounded text-sm focus:outline-none focus:border-primary-600"
                 placeholder="Add category..."
               />
-              <button onClick={() => addCategoryTag('categories', newCategory)} className="text-sm text-blue-600 font-medium">Add</button>
+              <button onClick={() => addCategoryTag('categories', newCategory)} className="text-sm text-primary-600 font-medium">Add</button>
             </div>
             {categories.length > 0 && (
               <div className="mt-3">
-                <p className="text-xs text-gray-500 mb-2">Existing:</p>
+                <p className="text-xs text-neutral-500 mb-2">Existing:</p>
                 <div className="flex flex-wrap gap-1">
                   {categories.map((cat) => (
                     <button
                       key={cat.id}
                       onClick={() => addCategoryTag('categories', cat.name)}
-                      className="text-xs px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded transition-colors"
+                      className="text-xs px-2 py-1 bg-neutral-100 hover:bg-neutral-200 rounded transition-colors"
                     >
                       {cat.name}
                     </button>
@@ -472,16 +472,16 @@ export default function ContentEditor() {
           </div>
 
           {/* Tags */}
-          <div className="bg-white rounded-xl border border-gray-200 p-6">
-            <h3 className="font-semibold text-gray-900 mb-4">Tags</h3>
+          <div className="bg-white rounded border border-neutral-300 p-6">
+            <h3 className="font-semibold text-neutral-800 mb-4">Tags</h3>
             <div className="flex flex-wrap gap-2 mb-3">
               {(form.tags || []).map((tag) => (
                 <span
                   key={tag}
-                  className="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs font-medium"
+                  className="inline-flex items-center gap-1 px-2 py-1 bg-neutral-100 text-neutral-700 rounded text-xs font-medium"
                 >
                   {tag}
-                  <button onClick={() => removeCategoryTag('tags', tag)} className="hover:text-red-600">&times;</button>
+                  <button onClick={() => removeCategoryTag('tags', tag)} className="hover:text-danger-600">&times;</button>
                 </span>
               ))}
             </div>
@@ -491,20 +491,20 @@ export default function ContentEditor() {
                 value={newTag}
                 onChange={(e) => setNewTag(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && addCategoryTag('tags', newTag)}
-                className="flex-1 px-3 py-1.5 border border-gray-300 rounded text-sm focus:outline-none focus:border-blue-500"
+                className="flex-1 px-3 py-1.5 border border-neutral-300 rounded text-sm focus:outline-none focus:border-primary-600"
                 placeholder="Add tag..."
               />
-              <button onClick={() => addCategoryTag('tags', newTag)} className="text-sm text-blue-600 font-medium">Add</button>
+              <button onClick={() => addCategoryTag('tags', newTag)} className="text-sm text-primary-600 font-medium">Add</button>
             </div>
             {tags.length > 0 && (
               <div className="mt-3">
-                <p className="text-xs text-gray-500 mb-2">Existing:</p>
+                <p className="text-xs text-neutral-500 mb-2">Existing:</p>
                 <div className="flex flex-wrap gap-1">
                   {tags.map((tag) => (
                     <button
                       key={tag.id}
                       onClick={() => addCategoryTag('tags', tag.name)}
-                      className="text-xs px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded transition-colors"
+                      className="text-xs px-2 py-1 bg-neutral-100 hover:bg-neutral-200 rounded transition-colors"
                     >
                       {tag.name}
                     </button>
