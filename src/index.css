@@ -778,3 +778,17 @@ img {
 .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
 .py-6 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
 .py-8 { padding-top: 2rem; padding-bottom: 2rem; }
+
+/* Strapi-style scrollbar for sidebar */
+.strapi-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.strapi-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Strapi nav tooltip positioning fix */
+.strapi-nav-link .pointer-events-none {
+  pointer-events: none;
+}

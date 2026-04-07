@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Lock, Mail, Eye, EyeOff, LayoutDashboard, Sparkles, Shield, Zap, Layers } from 'lucide-react';
+import { Lock, Mail, Eye, EyeOff, LayoutDashboard } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
 export default function AdminLogin() {
@@ -26,152 +26,80 @@ export default function AdminLogin() {
     setLoading(false);
   };
 
-  const features = [
-    { icon: Sparkles, text: 'Rich text editor with media support', color: 'from-blue-500 to-blue-600' },
-    { icon: Shield, text: 'Enterprise-grade security & auth', color: 'from-emerald-500 to-teal-600' },
-    { icon: Zap, text: 'Lightning-fast serverless backend', color: 'from-amber-500 to-orange-500' },
-    { icon: Layers, text: 'Full SEO tools & sitemap generation', color: 'from-violet-500 to-purple-600' },
-  ];
-
   return (
-    <div className="min-h-screen flex bg-[#0a0f1c]">
-      {/* Ambient background */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] right-[20%] w-[600px] h-[600px] rounded-full bg-blue-600/8 blur-[120px]" />
-        <div className="absolute bottom-[-10%] left-[10%] w-[500px] h-[500px] rounded-full bg-indigo-600/8 blur-[120px]" />
-        <div 
-          className="absolute inset-0" 
-          style={{ 
-            backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px)',
-            backgroundSize: '60px 60px',
-            maskImage: 'radial-gradient(ellipse at center, black 30%, transparent 70%)',
-            WebkitMaskImage: 'radial-gradient(ellipse at center, black 30%, transparent 70%)'
-          }} 
-        />
-      </div>
+    <div className="min-h-screen bg-[#f6f6f9] flex flex-col">
+      {/* Header */}
+      <header className="flex items-center justify-end p-6">
+        <a href="/" className="text-[13px] font-medium text-[#4945ff] hover:text-[#3d3adb] transition-colors">
+          ← Back to website
+        </a>
+      </header>
 
-      {/* Left side - Branding */}
-      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
-        <div className="relative z-10 flex flex-col justify-center px-12 xl:px-20">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="flex items-center gap-4 mb-14">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-600/30">
-                <LayoutDashboard className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold text-white tracking-wide">CMS Admin</h1>
-                <p className="text-blue-400/70 text-xs font-medium uppercase tracking-wider">Content Management</p>
-              </div>
-            </div>
-
-            <h2 className="text-4xl xl:text-5xl font-extrabold text-white mb-6 leading-[1.15]">
-              Manage Your
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 mt-1">
-                Content With Ease
-              </span>
-            </h2>
-
-            <p className="text-lg text-slate-400 leading-relaxed mb-12 max-w-md">
-              A powerful CMS built for speed, simplicity, and scalability. 
-              Create, edit, and publish content in minutes.
-            </p>
-
-            <div className="space-y-4">
-              {features.map((feature, index) => (
-                <motion.div
-                  key={feature.text}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.4, delay: 0.2 + index * 0.1 }}
-                  className="flex items-center gap-4 group"
-                >
-                  <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${feature.color} flex items-center justify-center flex-shrink-0 shadow-lg opacity-80 group-hover:opacity-100 transition-opacity`}>
-                    <feature.icon className="w-5 h-5 text-white" />
-                  </div>
-                  <span className="text-slate-300 text-sm">{feature.text}</span>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-      </div>
-
-      {/* Right side - Form */}
-      <div className="flex-1 flex items-center justify-center px-4 sm:px-8 py-12 relative z-10">
+      {/* Main */}
+      <div className="flex-1 flex items-center justify-center px-4 pb-20">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="w-full max-w-md"
+          transition={{ duration: 0.3 }}
+          className="w-full max-w-[552px]"
         >
-          {/* Mobile logo */}
-          <div className="lg:hidden flex items-center justify-center gap-3 mb-10">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-600/30">
-              <LayoutDashboard className="w-5 h-5 text-white" />
+          {/* Brand */}
+          <div className="flex flex-col items-center mb-8">
+            <div className="w-10 h-10 bg-[#4945ff] rounded-[8px] flex items-center justify-center mb-4 shadow-[0_1px_4px_rgba(73,69,255,0.3)]">
+              <LayoutDashboard className="w-5 h-5 text-white" strokeWidth={2.2} />
             </div>
-            <div>
-              <h1 className="text-xl font-bold text-white">CMS Admin</h1>
-              <p className="text-blue-400/70 text-[10px] uppercase tracking-wider font-medium">Content Management</p>
-            </div>
+            <h1 className="text-[28px] font-bold text-[#32324d]">Welcome!</h1>
+            <p className="text-sm text-[#666687] mt-1">Log in to your CMS admin panel</p>
           </div>
 
-          <div className="bg-white/[0.04] backdrop-blur-xl rounded-2xl shadow-2xl p-8 sm:p-10 border border-white/[0.08]">
-            <div className="mb-8">
-              <h1 className="text-2xl font-bold text-white mb-1.5">Welcome back</h1>
-              <p className="text-slate-400 text-sm">Sign in to your admin dashboard</p>
-            </div>
-
+          {/* Card */}
+          <div className="bg-white rounded-[4px] shadow-[0_1px_4px_rgba(33,33,52,0.1)] border border-[#dcdce4] p-8 sm:p-10">
             {error && (
               <motion.div
-                initial={{ opacity: 0, y: -10 }}
+                initial={{ opacity: 0, y: -4 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-red-500/10 border border-red-500/20 text-red-300 text-sm rounded-xl p-4 mb-6 flex items-center gap-3"
+                className="bg-[#fcecea] border border-[#f5c0b8] text-[#d02b20] text-[13px] font-medium rounded-[4px] p-3 mb-6 flex items-center gap-2"
               >
-                <div className="w-2 h-2 bg-red-400 rounded-full flex-shrink-0" />
+                <div className="w-1.5 h-1.5 bg-[#d02b20] rounded-full flex-shrink-0" />
                 {error}
               </motion.div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">
-                  Email Address
+                <label className="block text-xs font-bold text-[#32324d] mb-1.5">
+                  Email <span className="text-[#d02b20]">*</span>
                 </label>
                 <div className="relative">
-                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
                   <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full pl-11 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/50 transition-all text-sm"
+                    className="w-full px-4 py-2.5 bg-white border border-[#dcdce4] rounded-[4px] text-sm text-[#32324d] placeholder-[#a5a5ba] focus:outline-none focus:border-[#4945ff] focus:ring-2 focus:ring-[#4945ff]/10 transition-all"
                     placeholder="admin@cms.local"
                     required
+                    autoFocus
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">
-                  Password
+                <label className="block text-xs font-bold text-[#32324d] mb-1.5">
+                  Password <span className="text-[#d02b20]">*</span>
                 </label>
                 <div className="relative">
-                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
                   <input
                     type={showPassword ? 'text' : 'password'}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full pl-11 pr-12 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/50 transition-all text-sm"
+                    className="w-full px-4 py-2.5 pr-11 bg-white border border-[#dcdce4] rounded-[4px] text-sm text-[#32324d] placeholder-[#a5a5ba] focus:outline-none focus:border-[#4945ff] focus:ring-2 focus:ring-[#4945ff]/10 transition-all"
                     placeholder="Enter your password"
                     required
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-[#a5a5ba] hover:text-[#666687] transition-colors"
                   >
                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
@@ -181,34 +109,29 @@ export default function AdminLogin() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-blue-600/25 hover:shadow-blue-600/40 hover:-translate-y-0.5 text-sm"
+                className="w-full py-2.5 bg-[#4945ff] hover:bg-[#3d3adb] text-white text-sm font-semibold rounded-[4px] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
                 {loading ? (
                   <>
                     <div className="w-4 h-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-                    Signing in...
+                    Logging in...
                   </>
                 ) : (
-                  'Sign In'
+                  'Login'
                 )}
               </button>
             </form>
-
-            <div className="mt-8 pt-6 border-t border-white/5 text-center">
-              <p className="text-[11px] text-slate-500">
-                Default credentials:{' '}
-                <span className="font-mono text-slate-400">admin@cms.local</span>
-                {' / '}
-                <span className="font-mono text-slate-400">admin123</span>
-              </p>
-            </div>
           </div>
 
-          <p className="text-center mt-8 text-sm text-slate-500">
-            <a href="/" className="hover:text-slate-300 transition-colors">
-              ← Back to website
-            </a>
-          </p>
+          {/* Demo credentials hint */}
+          <div className="mt-6 text-center">
+            <p className="text-[11px] text-[#a5a5ba]">
+              Demo credentials:{' '}
+              <code className="font-mono bg-[#eaeaef] px-1.5 py-0.5 rounded-[2px] text-[#32324d]">admin@cms.local</code>
+              {' / '}
+              <code className="font-mono bg-[#eaeaef] px-1.5 py-0.5 rounded-[2px] text-[#32324d]">admin123</code>
+            </p>
+          </div>
         </motion.div>
       </div>
     </div>
