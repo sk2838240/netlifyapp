@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowRight, Sparkles, Shield, Zap, Globe, ChevronDown, Star, Users, Award, TrendingUp, CheckCircle, Rocket, BarChart3 } from 'lucide-react';
+import { ArrowRight, Sparkles, Shield, Zap, Globe, ChevronDown, Star, Users, User, Award, TrendingUp, CheckCircle, Rocket, BarChart3 } from 'lucide-react';
 import { useSiteStyles } from '../hooks/useSiteStyles';
 import { HomePageSection, FAQ } from '../types';
 
@@ -101,74 +101,96 @@ export default function HomePage() {
       {/* Default sections when no CMS data */}
       {sections.length === 0 && (
         <>
-          {/* Hero Section - Redesigned with stronger value prop */}
-          <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-gradient-to-br from-slate-50 via-white to-blue-50/30">
-            {/* Background patterns */}
-            <div className="absolute inset-0 overflow-hidden">
-              <div className="absolute top-0 right-0 w-[800px] h-[800px] rounded-full bg-blue-200/10 blur-3xl" />
-              <div className="absolute bottom-0 left-0 w-[600px] h-[600px] rounded-full bg-purple-200/10 blur-3xl" />
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] rounded-full bg-gradient-to-r from-blue-50/20 to-purple-50/20 blur-3xl" />
-              {/* Grid pattern */}
-              <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(0,0,0,0.03) 1px, transparent 0)', backgroundSize: '40px 40px' }} />
+          {/* Hero Section - Premium Aesthetic Redesign */}
+          <section className="relative min-h-[100vh] flex items-center justify-center overflow-hidden bg-[#0a0f1c]">
+            {/* Ambient Background Patterns */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              <div className="absolute top-[-10%] right-[-5%] w-[800px] h-[800px] rounded-full bg-blue-600/20 blur-[120px] mix-blend-screen animate-pulse" />
+              <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] rounded-full bg-indigo-600/20 blur-[120px] mix-blend-screen animate-pulse" style={{ animationDelay: '2s' }} />
+              <div className="absolute top-[40%] left-[30%] w-[500px] h-[500px] rounded-full bg-purple-600/10 blur-[100px] mix-blend-screen animate-pulse" style={{ animationDelay: '4s' }} />
+              
+              {/* Premium Grid Pattern */}
+              <div 
+                className="absolute inset-0" 
+                style={{ 
+                  backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px)',
+                  backgroundSize: '40px 40px',
+                  maskImage: 'radial-gradient(ellipse at center, black 40%, transparent 80%)',
+                  WebkitMaskImage: 'radial-gradient(ellipse at center, black 40%, transparent 80%)'
+                }} 
+              />
             </div>
             
-            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
-              <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
-                <motion.div initial={{ opacity: 0, x: -40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7, ease: 'easeOut' }}>
-                  {/* Badge */}
-                  <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100/80 backdrop-blur-sm rounded-full mb-8 border border-blue-200/50 shadow-sm">
-                    <Sparkles className="w-4 h-4 text-blue-600" />
-                    <span className="text-sm font-semibold text-blue-700">Now with AI-powered content suggestions</span>
+            <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 w-full">
+              <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+                <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}>
+                  {/* Glowing Badge */}
+                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8 border border-blue-500/30 bg-blue-500/10 backdrop-blur-md shadow-[0_0_20px_rgba(59,130,246,0.2)]">
+                    <Sparkles className="w-4 h-4 text-blue-400" />
+                    <span className="text-sm font-semibold text-blue-300 tracking-wide uppercase">CMS Reimagined</span>
                   </div>
                   
-                  {/* Main heading */}
-                  <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight mb-8 text-gray-900 leading-[1.1]">
-                    Build faster.
-                    <br />
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600">Deploy smarter.</span>
+                  {/* Main heading with gradient text */}
+                  <h1 className="text-5xl sm:text-7xl font-extrabold tracking-tight mb-6 text-white leading-[1.1]">
+                    Manage content. <br />
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400">
+                      Unleash creativity.
+                    </span>
                   </h1>
                   
                   {/* Subheading */}
-                  <p className="text-xl sm:text-2xl mb-10 max-w-xl text-gray-600 leading-relaxed">
-                    The modern platform for building, deploying, and scaling your web applications with confidence.
+                  <p className="text-lg sm:text-xl mb-10 max-w-xl text-slate-300/80 leading-relaxed font-light">
+                    Transform your digital presence with a premium, headless CMS built for speed, security, and developer satisfaction.
                   </p>
                   
                   {/* CTA buttons */}
-                  <div className="flex flex-wrap gap-5 mb-12">
-                    <Link to="/admin" className="btn-primary text-base px-8 py-4 shadow-xl shadow-blue-600/20 hover:shadow-2xl hover:shadow-blue-600/30">
-                      <Rocket className="w-5 h-5" />
-                      Start Building Free
+                  <div className="flex flex-wrap gap-5 mb-14">
+                    <Link to="/admin" className="group flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-base font-semibold px-8 py-4 rounded-xl shadow-[0_0_30px_rgba(59,130,246,0.3)] hover:shadow-[0_0_40px_rgba(59,130,246,0.5)] hover:-translate-y-1 transition-all duration-300">
+                      <Rocket className="w-5 h-5 group-hover:animate-bounce" />
+                      Go to Dashboard
                     </Link>
-                    <Link to="/blog" className="btn-secondary text-base px-8 py-4">
-                      View Documentation
+                    <Link to="/features" className="flex items-center gap-2 bg-white/5 backdrop-blur-md border border-white/10 text-white text-base font-medium px-8 py-4 rounded-xl hover:bg-white/10 transition-all duration-300">
+                      Explore Features
                     </Link>
                   </div>
                   
                   {/* Trust indicators */}
-                  <div className="flex items-center gap-8 pt-8 border-t border-gray-200/60">
-                    <div className="flex items-center gap-2">
-                      <CheckCircle className="w-5 h-5 text-green-500" />
-                      <span className="text-sm font-medium text-gray-700">Free tier available</span>
+                  <div className="flex items-center gap-10 pt-8 border-t border-slate-700/50">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center">
+                        <CheckCircle className="w-4 h-4 text-green-400" />
+                      </div>
+                      <span className="text-sm font-medium text-slate-300">Free forever</span>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <CheckCircle className="w-5 h-5 text-green-500" />
-                      <span className="text-sm font-medium text-gray-700">No credit card</span>
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center">
+                        <Shield className="w-4 h-4 text-blue-400" />
+                      </div>
+                      <span className="text-sm font-medium text-slate-300">Enterprise security</span>
                     </div>
                   </div>
                 </motion.div>
                 
-                {/* Hero visual */}
-                <motion.div initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7, delay: 0.2, ease: 'easeOut' }} className="hidden lg:block">
-                  <div className="relative">
-                    {/* Main card */}
-                    <div className="bg-white rounded-2xl shadow-2xl p-8 border border-gray-100/50 overflow-hidden">
-                      <div className="flex items-center gap-3 mb-8">
-                        <div className="flex gap-2">
-                          <div className="w-3 h-3 rounded-full bg-red-400" />
-                          <div className="w-3 h-3 rounded-full bg-yellow-400" />
-                          <div className="w-3 h-3 rounded-full bg-green-400" />
+                {/* Hero visual - Dark mode glassy dashboard representation */}
+                <motion.div initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }} className="hidden lg:block">
+                  <div className="relative perspective-1000">
+                    {/* Main glassy floating card */}
+                    <div className="relative z-20 bg-slate-900/60 backdrop-blur-xl rounded-2xl shadow-2xl p-8 border border-white/10 overflow-hidden transform rotate-y-[-5deg] rotate-x-[5deg] hover:rotate-y-[0deg] hover:rotate-x-[0deg] transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+                      {/* Inner glow effect */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-50" />
+                      
+                      <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/10">
+                        <div className="flex items-center gap-3">
+                          <div className="flex gap-2">
+                            <div className="w-3 h-3 rounded-full bg-red-400/80 shadow-[0_0_10px_rgba(248,113,113,0.5)]" />
+                            <div className="w-3 h-3 rounded-full bg-yellow-400/80 shadow-[0_0_10px_rgba(250,204,21,0.5)]" />
+                            <div className="w-3 h-3 rounded-full bg-green-400/80 shadow-[0_0_10px_rgba(74,222,128,0.5)]" />
+                          </div>
+                          <span className="text-xs text-slate-400 font-mono tracking-wider ml-4">admin/dashboard</span>
                         </div>
-                        <span className="text-xs text-gray-400 font-mono ml-2">deploy-preview-123</span>
+                        <div className="w-6 h-6 rounded-full bg-blue-500/20 flex items-center justify-center">
+                          <User className="w-3 h-3 text-blue-400" />
+                        </div>
                       </div>
                       
                       {/* Code-like content */}
